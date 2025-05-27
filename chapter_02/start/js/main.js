@@ -11,4 +11,5 @@ svg
     .attr("y", 10)
     .attr("width", 414)
     .attr("height", h)
-    .attr("fill", "turquoise");
+    .attr("fill", "turquoise")
+    .style("fill", "plum");
