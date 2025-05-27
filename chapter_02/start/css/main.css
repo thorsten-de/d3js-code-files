@@ -4,3 +4,7 @@
   width: 100%;
   max-width: 1200px;
 }
+
+svg {
+  border: 1px solid gray;
+}
