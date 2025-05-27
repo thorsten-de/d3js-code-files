@@ -12,8 +12,11 @@
 
         <rect x="260" y="25" width="120" height="60" fill="#6ba5d7" />
         <rect x="260" y="100" width="120" height="60" rx="20" ry="20" fill="#6ba5d7" />
-        <rect x="260" y="175" width="60" height="60" fill="transparent" stroke="#6ba5d7" />
 
+        <g transform="translate(260, 175)">
+          <rect x="0" y="0" width="60" height="60" fill="none" stroke="#6ba5d7" />
+          <text x="0" y="85">Rect</text>
+        </g>
         <circle cx="530" cy="80" r="50" fill="transparent" stroke="#81c21c" stroke-width="3" />
         <ellipse cx="530" cy="205" rx="50" ry="30" fill="#81c21c" />
         <path
@@ -23,11 +26,12 @@
           stroke-width="3"
         />
 
-        <text x="60" y="260">Line</text>
-        <text x="270" y="260" fill="#6ba5d7">Rectangles</text>
-        <text x="530" y="155" text-anchor="middle">Circle</text>
-        <text x="530" y="260" text-anchor="middle">Ellipse</text>
-        <text x="730" y="260" fill="#773b9a">Path</text>
+        <g fill="#636466" style="font-size: 16px; font-family: monospace">
+          <text x="60" y="260">Line</text>
+          <text x="530" y="155" text-anchor="middle">Circle</text>
+          <text x="530" y="260" text-anchor="middle">Ellipse</text>
+          <text x="730" y="260">Path</text>
+        </g>
       </svg>
     </div>
   </body>
