@@ -21,5 +21,18 @@ d3.csv("../data/data.csv", row => {
 });
 
 const createViz = data => {
-  console.log(data)
-};
+  const barHeight = 20;
+  svg
+    .selectAll("rect")
+    .data(data)
+    .join("rect")
+    .attr("class", d => {
+      console.log(d);
+      return "bar";
+    })
+    .attr("width", d => d.count)
+    .attr("height", barHeight)
+    .attr("x", 0)
+    .attr("y", (d, idx) => (barHeight + 5) * idx)
+    .attr("fill", d => d.tech === "D3.js" ? "steelblue" : "lightsteelblue")
+}
