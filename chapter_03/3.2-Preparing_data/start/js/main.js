@@ -1,7 +1,7 @@
 // Append a SVG container
 const svg = d3.select(".responsive-svg-container")
   .append("svg")
-  .attr("viewBox", "0 0 1200 1600")
+  .attr("viewBox", "0 0 600 700")
   .style("border", "1px solid black");
 
 d3.csv("../data/data.csv", row => {
@@ -22,17 +22,22 @@ d3.csv("../data/data.csv", row => {
 
 const createViz = data => {
   const barHeight = 20;
+  const maxCount = d3.max(data, d => d.count);
+  const xScale = d3.scaleLinear()
+    .domain([0, maxCount])
+    .range([0, 450]);
+
   svg
     .selectAll("rect")
     .data(data)
     .join("rect")
     .attr("class", d => {
-      console.log(d);
+      // console.log(d);
       return "bar";
     })
-    .attr("width", d => d.count)
+    .attr("width", d => xScale(d.count))
     .attr("height", barHeight)
-    .attr("x", 0)
+    .attr("x", 100)
     .attr("y", (d, idx) => (barHeight + 5) * idx)
     .attr("fill", d => d.tech === "D3.js" ? "steelblue" : "lightsteelblue")
 }
