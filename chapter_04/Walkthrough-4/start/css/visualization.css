@@ -11,3 +11,13 @@
 svg {
   border: 1px solid gray;
 }
+
+.axis-x text,
+.axis-y text {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
+
+.axis-x text {
+  padding: 10px;
+}

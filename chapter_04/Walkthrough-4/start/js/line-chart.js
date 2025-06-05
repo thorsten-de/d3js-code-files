@@ -19,7 +19,8 @@ const drawLineChart = (data) => {
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 
-  const [firstDate, lastDate] = d3.extent(data, d => d.date);
+  const firstDate = new Date(2021, 0, 01, 0, 0, 0);
+  const lastDate = d3.max(data, d => d.date);
   const xScale = d3.scaleTime()
     .domain([firstDate, lastDate])
     .range([0, innerWidth]);
@@ -29,11 +30,20 @@ const drawLineChart = (data) => {
     .domain([0, maxTemp])
     .range([innerHeight, 0]);
 
-  const bottomAxis = d3.axisBottom(xScale);
+  const bottomAxis = d3.axisBottom(xScale)
+    .tickFormat(d3.timeFormat("%b"));
+
   innerChart
     .append("g")
     .attr("class", "axis-x")
     .attr("transform", `translate(0, ${innerHeight})`)
     .call(bottomAxis);
+
+  d3.selectAll(".axis-x text")
+    .attr("x", d => {
+      const currentMonth = d;
+      const nextMonth = new Date(2021, currentMonth.getMonth() + 1, 1);
+      return xScale(nextMonth) / 2 - xScale(currentMonth) / 2;
+    })
 
 };
