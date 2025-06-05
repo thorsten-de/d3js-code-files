@@ -2,6 +2,9 @@
 
 This folder contains the exercise files for chapter 4 of [D3.js in Action, 3rd edition](https://www.manning.com/books/d3js-in-action-third-edition).
 
+The target is buidling the following visualization:
+![](./media/szv8bhii.png)
+
 The folder is separated into subfolders corresponding to each section of the chapter. In these subfolders, you'll find a *start* and an *end* folder. To follow along with the book's instructions, write your code in the *start* folder. You'll find the solution in the *end* folder if ever you get stuck.
 When changing to the next section, you can choose to keep coding in the same files or use the *start* folder for that section.
 
