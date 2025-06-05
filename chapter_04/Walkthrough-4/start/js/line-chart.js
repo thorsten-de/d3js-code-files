@@ -99,4 +99,41 @@ const drawLineChart = (data) => {
     .attr("d", areaGenerator(data))
     .attr("fill", aubergine)
     .attr("fill-opacity", 0.2);
+
+  innerChart
+    .append("text")
+    .text("Average temperature")
+    .attr("x", xScale(lastDate) + 10)
+    .attr("y", yScale(data[data.length - 1].avg_temp_F))
+    .attr("dominant-baseline", "middle")
+    .attr("fill", aubergine);
+
+  const elem = data[data.length - 3];
+  drawLabel(innerChart, xScale(elem.date), yScale(elem.min_temp_F),
+    "Minimal temperature", 1, "hanging", aubergine);
+
+  const maxElem = data[data.length - 4];
+  drawLabel(innerChart, xScale(maxElem.date), yScale(maxElem.max_temp_F),
+    "Maximal temperature", -1, "auto", aubergine)
+
+
 };
+
+const drawLabel = (chart, x, y, text, dir, baseline, color) => {
+  chart
+    .append("text")
+    .text(text)
+    .attr("x", x + 13)
+    .attr("y", y + dir * 20)
+    .attr("dominant-baseline", baseline)
+    .attr("fill", color);
+
+  chart
+    .append("line")
+    .attr("x1", x)
+    .attr("y1", y + dir * 3)
+    .attr("x2", x + 10)
+    .attr("y2", y + dir * 20)
+    .attr("stroke", color)
+    .attr("stroke-width", 2);
+}
