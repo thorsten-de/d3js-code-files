@@ -5,7 +5,7 @@ d3.csv("../data/weekly_temperature.csv", d3.autoType)
 // Create the line chart here
 const drawLineChart = (data) => {
   const margin = { top: 40, right: 170, bottom: 25, left: 40 };
-  const width = 600;
+  const width = 800;
   const height = 400;
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
@@ -62,4 +62,17 @@ const drawLineChart = (data) => {
     .text("Temperature (°F)")
     .attr("y", 20)
 
+
+  const aubergine = "#75485E";
+  innerChart
+    .selectAll("circle")
+    .data(data)
+    .join("circle")
+    .attr("r", 4)
+    .attr("cx", d => xScale(d.date))
+    .attr("cy", d => yScale(d.avg_temp_F))
+    .attr("fill", aubergine);
+
 };
+
+
