@@ -87,6 +87,16 @@ const drawLineChart = (data) => {
     .attr("d", lineGenerator(data))
     .attr("fill", "none")
     .attr("stroke", aubergine);
+
+  const areaGenerator = d3.area()
+    .x(xData)
+    .y0(d => yScale(d.min_temp_F))
+    .y1(d => yScale(d.max_temp_F))
+    .curve(d3.curveCatmullRom);
+
+  innerChart
+    .append("path")
+    .attr("d", areaGenerator(data))
+    .attr("fill", aubergine)
+    .attr("fill-opacity", 0.2);
 };
-
-
