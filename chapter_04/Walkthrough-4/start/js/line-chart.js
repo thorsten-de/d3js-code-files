@@ -40,10 +40,26 @@ const drawLineChart = (data) => {
     .call(bottomAxis);
 
   d3.selectAll(".axis-x text")
+    .attr("y", 10)
     .attr("x", d => {
       const currentMonth = d;
       const nextMonth = new Date(2021, currentMonth.getMonth() + 1, 1);
       return xScale(nextMonth) / 2 - xScale(currentMonth) / 2;
     })
+
+
+  const leftAxis = d3.axisLeft(yScale);
+  innerChart
+    .append("g")
+    .attr("class", "axis-y")
+    .call(leftAxis);
+
+  d3.selectAll(".axis-y text")
+    .attr("x", -5);
+
+  svg
+    .append("text")
+    .text("Temperature (°F)")
+    .attr("y", 20)
 
 };
