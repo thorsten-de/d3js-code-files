@@ -79,7 +79,8 @@ const drawLineChart = (data) => {
 
   const lineGenerator = d3.line()
     .x(xData)
-    .y(yAvgTempF);
+    .y(yAvgTempF)
+    .curve(d3.curveCatmullRom);
 
   innerChart
     .append("path")
