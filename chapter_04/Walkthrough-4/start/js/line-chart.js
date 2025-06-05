@@ -63,16 +63,29 @@ const drawLineChart = (data) => {
     .attr("y", 20)
 
 
+  const xData = d => xScale(d.date);
+  const yAvgTempF = d => yScale(d.avg_temp_F);
+
   const aubergine = "#75485E";
   innerChart
     .selectAll("circle")
     .data(data)
     .join("circle")
     .attr("r", 4)
-    .attr("cx", d => xScale(d.date))
+    .attr("cx", xData)
     .attr("cy", d => yScale(d.avg_temp_F))
     .attr("fill", aubergine);
 
+
+  const lineGenerator = d3.line()
+    .x(xData)
+    .y(yAvgTempF);
+
+  innerChart
+    .append("path")
+    .attr("d", lineGenerator(data))
+    .attr("fill", "none")
+    .attr("stroke", aubergine);
 };
 
 
