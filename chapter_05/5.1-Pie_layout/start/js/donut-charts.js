@@ -7,4 +7,11 @@ const drawDonutCharts = (data) => {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+  const years = [1975, 1995, 2013];
+  years.forEach(year => {
+    const donutContainer = donutContainers
+      .append("g")
+      .attr("transform", `translate(${xScale(year)}, ${innerHeight / 2})`)
+  })
+
 };
