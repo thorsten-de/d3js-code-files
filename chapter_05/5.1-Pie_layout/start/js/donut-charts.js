@@ -18,7 +18,8 @@ const drawDonutCharts = (data) => {
       .data(annotatedData)
       .join("path")
       .attr("class", `arc-${year}`)
-      .attr("d", arcGenerator);
+      .attr("d", arcGenerator)
+      .attr("fill", d => colorScale(d.data.format));
   }
 
   const svg = d3.select("#donut")
