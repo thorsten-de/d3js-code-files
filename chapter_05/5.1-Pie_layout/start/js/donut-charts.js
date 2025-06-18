@@ -11,6 +11,9 @@ const drawDonutCharts = (data) => {
         sales: yearData[format]
       };
     });
+    const annotatedData = pieGenerator(formattedData);
+    console.log(annotatedData)
+
   }
 
   const svg = d3.select("#donut")
@@ -23,5 +26,8 @@ const drawDonutCharts = (data) => {
 
   const years = [1975, 1995, 2013];
   const formats = data.columns.filter(format => format !== "year");
+
+  const pieGenerator = d3.pie()
+    .value(d => d.sales);
   years.forEach(drawYearDonut);
 };
