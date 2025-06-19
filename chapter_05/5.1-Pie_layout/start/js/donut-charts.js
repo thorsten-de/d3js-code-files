@@ -54,6 +54,13 @@ const drawDonutCharts = (data) => {
       .attr("fill-opacity", d => d.percentage < 0.05 ? 0 : 1)
       .style("font-size", "16px")
       .style("font-weight", 500);
+
+    donutContainer.append("text")
+      .text(year)
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .style("font-size", "24px")
+      .style("font-weight", 500)
   }
 
   const svg = d3.select("#donut")
