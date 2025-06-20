@@ -28,7 +28,6 @@ const drawHistogram = (data) => {
     .value(d => d.salary)
 
   const bins = binGenerator(data);
-  console.log(bins)
 
   const minSalary = bins[0].x0;
   const maxSalary = bins[bins.length - 1].x1;
