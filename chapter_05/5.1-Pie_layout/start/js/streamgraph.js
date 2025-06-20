@@ -26,4 +26,23 @@ const drawStreamGraph = (data) => {
     .range([innerHeight, 0])
     .nice();
 
+  const areaGenerator = d3.area()
+    .x(d => xScale(d.data.year) + xScale.bandwidth() / 2)
+    .y0(d => yScale(d[0]))
+    .y1(d => yScale(d[1]))
+    .curve(d3.curveCatmullRom)
+
+  innerChart
+    .append("g")
+    .attr("class", "areas-container")
+    .selectAll("path")
+    .data(annotatedData)
+    .join("path")
+    .attr("d", areaGenerator)
+    .attr("fill", d => colorScale(d.key))
+
+
+
+
+
 };
