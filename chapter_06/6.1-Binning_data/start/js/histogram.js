@@ -53,7 +53,25 @@ const drawHistogram = (data) => {
     .attr("height", d => innerHeight - yScale(d.length))
     .attr("fill", slateGray)
     .attr("stroke", "white")
-    .attr("stroke-width", 2)
+    .attr("stroke-width", 2);
 
+  const bottomAxis = d3.axisBottom(xScale);
+  innerChart.append("g")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomAxis);
 
+  svg.append("text")
+    .text("Yearly salary (USD")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height - 5);
+
+  const leftAxis = d3.axisLeft(yScale);
+  innerChart.append("g")
+    .call(leftAxis);
+
+  svg.append("text")
+    .text("Frequency")
+    .attr("dominant-baseline", "hanging")
+    .attr("x", 5)
 };
