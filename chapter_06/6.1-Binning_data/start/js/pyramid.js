@@ -61,24 +61,34 @@ const drawPyramid = (data) => {
       .domain(chart.domain)
       .range(chart.range)
 
-    const orientation = chart.class === "female" ? -1 : 1;
     const xWidth = d => xScale(d.length / data.length * 100)
-    const xPos = chart.class === "female" ? xWidth : middle
+    const yMiddle = d => (yScale(d.x0) + yScale(d.x1)) / 2
     console.log(bins)
 
-    innerChart
+    const binViz = innerChart
       .append("g")
       .selectAll(`rect-${chart.class}`)
       .data(bins)
-      .join("rect")
+      .join("g")
       .attr("class", `rect-${chart.class}`)
-      .attr("x", xPos)
-      .attr("y", d => yScale(d.x1))
-      .attr("width", d => orientation * (xWidth(d) - middle))
-      .attr("height", d => yScale(d.x0) - yScale(d.x1))
-      .attr("fill", chart.color)
-      .attr("stroke", "white")
+
+
+
+    binViz.append("line")
+      .attr("x1", middle)
+      .attr("y1", yMiddle)
+      .attr("x2", xWidth)
+      .attr("y2", yMiddle)
+      .attr("stroke", "grey")
       .attr("stroke-width", 2)
+    binViz.append("circle")
+      .attr("cx", xWidth)
+      .attr("cy", yMiddle)
+      .attr("r", 10)
+      .attr("fill", chart.color)
+      .attr("stroke", "grey")
+      .attr("stroke-width", 2)
+
 
     const bottomAxis = d3.axisBottom(xScale)
       .tickValues(chart.tickValues)
