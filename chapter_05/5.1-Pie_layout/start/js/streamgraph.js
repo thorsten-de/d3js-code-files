@@ -14,15 +14,25 @@ const drawStreamGraph = (data) => {
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   const stackGenerator = d3.stack()
-    .keys(formatsInfo.map(f => f.id));
+    .keys(formatsInfo.map(f => f.id))
+    .order(d3.stackOrderInsideOut)
+    .offset(d3.stackOffsetSilhouette)
 
   const annotatedData = stackGenerator(data);
 
-  // the last series is stacked at the top, so get the max y1 from there
-  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length - 1], d => d[1]);
+  const minLowerBoundaries = [];
+  const maxUpperBoundries = [];
+
+  annotatedData.forEach(series => {
+    minLowerBoundaries.push(d3.min(series, d => d[0]));
+    maxUpperBoundries.push(d3.max(series, d => d[1]));
+  })
+
+  const minDomain = d3.min(minLowerBoundaries);
+  const maxDomain = d3.max(maxUpperBoundries);
 
   const yScale = d3.scaleLinear()
-    .domain([0, maxUpperBoundary])
+    .domain([minDomain, maxDomain])
     .range([innerHeight, 0])
     .nice();
 
