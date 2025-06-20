@@ -18,6 +18,13 @@ const drawStackedBars = (data) => {
 
   const annotatedData = stackGenerator(data);
 
-  console.log(annotatedData);
+  // the last series is stacked at the top, so get the max y1 from there
+  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length - 1], d => d[1]);
+
+  const yScale = d3.scaleLinear()
+    .domain([0, maxUpperBoundary])
+    .range([innerHeight, 0])
+    .nice();
+
 
 };
