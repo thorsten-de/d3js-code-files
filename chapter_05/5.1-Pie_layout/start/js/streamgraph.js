@@ -41,7 +41,9 @@ const drawStreamGraph = (data) => {
     .attr("d", areaGenerator)
     .attr("fill", d => colorScale(d.key))
 
-
+  const leftAxis = d3.axisLeft(yScale);
+  innerChart.append("g")
+    .call(leftAxis);
 
 
 
