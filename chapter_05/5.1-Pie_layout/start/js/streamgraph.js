@@ -26,6 +26,17 @@ const drawStreamGraph = (data) => {
     .range([innerHeight, 0])
     .nice();
 
+  const bottomAxis = d3.axisBottom(xScale)
+    .tickValues(d3.range(1975, 2020, 5))
+    .tickSizeOuter(0)
+    .tickSize(innerHeight * -1);
+
+  innerChart
+    .append("g")
+    .attr("class", "x-axis-streamgraph")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomAxis);
+
   const areaGenerator = d3.area()
     .x(d => xScale(d.data.year) + xScale.bandwidth() / 2)
     .y0(d => yScale(d[0]))
