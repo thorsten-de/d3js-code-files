@@ -1,17 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&family=Roboto:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&family=Roboto:wght@400;500&display=swap");
 
 html {
   font-size: 62.5%;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
-*, ::after, ::before {
+*,
+::after,
+::before {
   box-sizing: inherit;
 }
 body {
   margin: 0;
   background-color: #f6fafc;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.6rem;
   line-height: 2.8rem;
   font-weight: 400;
@@ -27,8 +29,11 @@ body {
 }
 
 /* Type */
-h1, h2, h3, h4 {
-  font-family: 'EB Garamond', serif;
+h1,
+h2,
+h3,
+h4 {
+  font-family: "EB Garamond", serif;
   line-height: 1.2;
   font-weight: 600;
 }
@@ -49,7 +54,8 @@ a {
   box-shadow: inset 0 -5px 0 0 rgba(193, 83, 33, 0.3);
   transition: box-shadow 0.2s ease-out;
 }
-a:hover, a:focus {
+a:hover,
+a:focus {
   box-shadow: inset 0 -18px 0 0 rgba(193, 83, 33, 0.3);
   transition-timing-function: ease-in;
 }
@@ -68,13 +74,27 @@ span.support {
   color: #f6fafc;
   border-radius: 2px;
 }
-.support-vinyl { background-color: #76B6C2; }
-.support-eigth-track { background-color: #4CDDF7; }
-.support-cassette { background-color: #20B9BC; }
-.support-cd { background-color: #2F8999; }
-.support-download { background-color: #E39F94; }
-.support-streaming { background-color: #ED7864; }
-.support-other { background-color: #ABABAB; }
+.support-vinyl {
+  background-color: #76b6c2;
+}
+.support-eigth-track {
+  background-color: #4cddf7;
+}
+.support-cassette {
+  background-color: #20b9bc;
+}
+.support-cd {
+  background-color: #2f8999;
+}
+.support-download {
+  background-color: #e39f94;
+}
+.support-streaming {
+  background-color: #ed7864;
+}
+.support-other {
+  background-color: #ababab;
+}
 
 /* Color legend */
 .color-legend {
