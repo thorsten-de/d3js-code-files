@@ -56,6 +56,21 @@ const drawStreamGraph = (data) => {
   innerChart.append("g")
     .call(leftAxis);
 
+  const leftAxisLabel = svg.append("text")
+    .attr("dominant-baseline", "hanging");
 
+  leftAxisLabel.append("tspan")
+    .text("Total revenue");
 
+  leftAxisLabel.append("tspan")
+    .text("(million USD)")
+    .attr("dx", 5)
+    .attr("fill-opacity", 0.7)
+
+  leftAxisLabel.append("tspan")
+    .text("Adjusted for inflation")
+    .attr("x", 0)
+    .attr("dy", 20)
+    .attr("fill-opacity", 0.7)
+    .style("font-size", "14px")
 };
