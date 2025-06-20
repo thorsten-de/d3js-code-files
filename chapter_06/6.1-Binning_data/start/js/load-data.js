@@ -1,7 +1,9 @@
+// As we don't now a concrete value, randomize in the given range to get a realistic distribution
+// As for $240k+ no upper bound exists, it is ignored
 const getRandomSalary = (salary) => {
   const lowerLimit = +salary.slice(1, salary.indexOf(" -")).replace(",", "");
   const upperLimit = +salary.slice(salary.indexOf(" $") + 2).replace(",", "");
-  
+
   return Math.floor(Math.random() * (upperLimit - lowerLimit) + lowerLimit);
 }
 

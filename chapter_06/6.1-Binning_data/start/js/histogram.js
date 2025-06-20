@@ -3,7 +3,7 @@ const drawHistogram = (data) => {
   /*******************************/
   /*    Declare the constants    */
   /*******************************/
-  const margin = {top: 40, right: 30, bottom: 50, left: 40};
+  const margin = { top: 40, right: 30, bottom: 50, left: 40 };
   const width = 1000;
   const height = 500;
   const innerWidth = width - margin.left - margin.right;
@@ -16,12 +16,44 @@ const drawHistogram = (data) => {
   // Append the SVG container
   const svg = d3.select("#histogram")
     .append("svg")
-      .attr("viewBox", `0, 0, ${width}, ${height}`);
+    .attr("viewBox", `0, 0, ${width}, ${height}`);
 
   // Append the group that will contain the inner chart
   const innerChart = svg
     .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
-  
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+
+  const binGenerator = d3.bin()
+    .value(d => d.salary)
+
+  const bins = binGenerator(data);
+  console.log(bins)
+
+  const minSalary = bins[0].x0;
+  const maxSalary = bins[bins.length - 1].x1;
+
+  const xScale = d3.scaleLinear()
+    .domain([minSalary, maxSalary])
+    .range([0, innerWidth]);
+
+  const binsMaxCount = d3.max(bins, d => d.length)
+  const yScale = d3.scaleLinear()
+    .domain([0, binsMaxCount])
+    .range([innerHeight, 0])
+    .nice();
+
+  innerChart
+    .selectAll("rect")
+    .data(bins)
+    .join("rect")
+    .attr("x", d => xScale(d.x0))
+    .attr("y", d => yScale(d.length))
+    .attr("width", d => xScale(d.x1) - xScale(d.x0))
+    .attr("height", d => innerHeight - yScale(d.length))
+    .attr("fill", slateGray)
+    .attr("stroke", "white")
+    .attr("stroke-width", 2)
+
 
 };
