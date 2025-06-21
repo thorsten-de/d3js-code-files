@@ -9,8 +9,16 @@ const populateFilters = (data) => {
     .attr("class", d => `filter ${d.isActive ? "active" : ""}`)
     .text(d => d.label)
     .on("click", (e, d) => {
-      console.log("DOM event", e)
-      console.log("Attached datum", d)
+      if (!d.isActive) {
+        filters.forEach(filter => {
+          filter.isActive = d.id === filter.id;// ? true : false
+        });
+
+        d3.selectAll(".filter")
+          .classed("active", filter => filter.id === d.id)
+
+        updateHistogram(d.id, data)
+      }
     });
 
 
