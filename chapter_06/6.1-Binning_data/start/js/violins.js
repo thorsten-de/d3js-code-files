@@ -9,6 +9,8 @@ const drawViolinCharts = (data) => {
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
+  const rangeWidth = 4;
+
 
   /*******************************/
   /*    Append the containers    */
@@ -102,6 +104,21 @@ const drawViolinCharts = (data) => {
       .attr("d", areaGenerator(role.bins))
       .attr("fill", slateGray)
       .attr("fill-opacity", 0.3)
+
+
+    roleVioline.append("rect")
+      .attr("x", xScale(role.id) - rangeWidth)
+      .attr("y", yScale(role.quartiles[2]))
+      .attr("width", 2 * rangeWidth)
+      .attr("height", yScale(role.quartiles[0]) - yScale(role.quartiles[2]))
+      .attr("rx", rangeWidth)
+      .attr("fill", gray)
+
+    roleVioline.append("circle")
+      .attr("cx", xScale(role.id))
+      .attr("cy", yScale(role.mean))
+      .attr("r", rangeWidth - 1)
+      .attr("fill", white)
   });
 
 };
