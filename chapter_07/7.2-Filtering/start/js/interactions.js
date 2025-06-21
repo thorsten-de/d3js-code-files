@@ -8,6 +8,10 @@ const populateFilters = (data) => {
     .join("button")
     .attr("class", d => `filter ${d.isActive ? "active" : ""}`)
     .text(d => d.label)
+    .on("click", (e, d) => {
+      console.log("DOM event", e)
+      console.log("Attached datum", d)
+    });
 
 
 
