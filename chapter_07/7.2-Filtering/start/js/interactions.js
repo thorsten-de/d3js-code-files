@@ -2,8 +2,14 @@
 /*  Create and populate the filters  */
 /*************************************/
 const populateFilters = (data) => {
+  d3.select("#filters")
+    .selectAll(".filter")
+    .data(filters)
+    .join("button")
+    .attr("class", d => `filter ${d.isActive ? "active" : ""}`)
+    .text(d => d.label)
 
-  // Create the filters here
+
 
 };
 
@@ -12,7 +18,7 @@ const populateFilters = (data) => {
 /*   Update the histogram   */
 /****************************/
 const updateHistogram = (selectedFilter, data) => {
-  
+
   // Update the histogram here
 
 };
