@@ -54,7 +54,7 @@ const drawViolinCharts = (data) => {
   const xScale = d3.scalePoint()
     .domain(roles.map(r => r.id))
     .range([0, innerWidth])
-    .padding(0.5);
+    .padding(0.7);
 
   const maxSalary = d3.max(data, d => d.salary);
   const yScale = d3.scaleLinear()
@@ -92,34 +92,16 @@ const drawViolinCharts = (data) => {
     const roleVioline = innerChart
       .append("g");
 
-    roleVioline
-      .selectAll(`.bar-${role.id}`)
-      .data(role.bins)
-      .join("rect")
-      .attr("class", `bar-${role.id}`)
-      .attr("x", xScale(role.id))
-      .attr("y", d => yScale(d.x1))
-      .attr("width", d => violinScale(d.length))
-      .attr("height", d => yScale(d.x0) - yScale(d.x1))
-      .attr("fill", slateGray)
-      .attr("fill-opacity", 0.4)
-      .attr("stroke", white)
-      .attr("stroke-width", 2)
-
-
     const areaGenerator = d3.area()
-      .x0(d => xScale(role.id))
+      .x0(d => xScale(role.id) - violinScale(d.length))
       .x1(d => xScale(role.id) + violinScale(d.length))
       .y(d => (yScale(d.x0) + yScale(d.x1)) / 2)
       .curve(d3.curveCatmullRom);
 
     roleVioline.append("path")
       .attr("d", areaGenerator(role.bins))
-      .attr("fill", "transparent")
-      .attr("stroke", slateGray)
-      .attr("stroke-width", 2)
-
-
+      .attr("fill", slateGray)
+      .attr("fill-opacity", 0.3)
   });
 
 };
