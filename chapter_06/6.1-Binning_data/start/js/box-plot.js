@@ -9,6 +9,9 @@ const drawBoxplot = (data) => {
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
+  const boxplotWidth = 60;
+  const boxplotStrokeWidth = 3;
+
 
   /*******************************/
   /*    Append the containers    */
@@ -68,12 +71,49 @@ const drawBoxplot = (data) => {
 
     console.log({ gender, quartiles, median, mean, min, max })
 
+    const boxPlot = innerChart.append("g")
+      .attr("stroke", slateGray)
+      .attr("stroke-width", boxplotStrokeWidth)
+
+    boxPlot.append("rect")
+      .attr("x", xScale(gender) - boxplotWidth / 2)
+      .attr("y", yScale(quartiles[2]))
+      .attr("width", boxplotWidth)
+      .attr("height", yScale(quartiles[0]) - yScale(quartiles[2]))
+      .attr("fill", "transparent")
+
+    const medianY = yScale(quartiles[1])
+    boxPlot.append("line")
+      .attr("x1", xScale(gender) - boxplotWidth / 2)
+      .attr("x2", xScale(gender) + boxplotWidth / 2)
+      .attr("y1", medianY)
+      .attr("y2", medianY)
+      .attr("stroke", gender === "Female" ? womenColor : menColor)
+      .attr("stroke-width", 6)
+
+    boxPlot.append("line")
+      .attr("x1", xScale(gender))
+      .attr("x2", xScale(gender))
+      .attr("y1", yScale(max))
+      .attr("y2", yScale(quartiles[2]))
+    boxPlot.append("line")
+      .attr("x1", xScale(gender) - boxplotWidth / 2)
+      .attr("x2", xScale(gender) + boxplotWidth / 2)
+      .attr("y1", yScale(max))
+      .attr("y2", yScale(max))
+
+    boxPlot.append("line")
+      .attr("x1", xScale(gender))
+      .attr("x2", xScale(gender))
+      .attr("y1", yScale(quartiles[0]))
+      .attr("y2", yScale(min))
+    boxPlot.append("line")
+      .attr("x1", xScale(gender) - boxplotWidth / 2)
+      .attr("x2", xScale(gender) + boxplotWidth / 2)
+      .attr("y1", yScale(min))
+      .attr("y2", yScale(min))
 
 
 
   });
-
-
-
-
 };
