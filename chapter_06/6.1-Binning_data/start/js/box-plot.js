@@ -10,7 +10,7 @@ const drawBoxplot = (data) => {
   const innerHeight = height - margin.top - margin.bottom;
 
   const boxplotWidth = 60;
-  const boxplotStrokeWidth = 3;
+  const boxplotStrokeWidth = 4;
 
 
   /*******************************/
@@ -75,6 +75,19 @@ const drawBoxplot = (data) => {
       .attr("stroke", slateGray)
       .attr("stroke-width", boxplotStrokeWidth)
 
+
+    // Draw each data point with random y offset behind the box plot
+    boxPlot.selectAll("circle")
+      .data(salaries)
+      .join("circle")
+      .attr("cx", d => xScale(gender) - boxplotWidth / 2 + Math.random() * boxplotWidth)
+      .attr("cy", d => yScale(d))
+      .attr("r", 3)
+      .attr("fill", "#CCCCCC")
+      .attr("stroke", "#AAAAAA")
+      .attr("stroke-width", 1)
+
+
     boxPlot.append("rect")
       .attr("x", xScale(gender) - boxplotWidth / 2)
       .attr("y", yScale(quartiles[2]))
@@ -89,7 +102,7 @@ const drawBoxplot = (data) => {
       .attr("y1", medianY)
       .attr("y2", medianY)
       .attr("stroke", gender === "Female" ? womenColor : menColor)
-      .attr("stroke-width", 6)
+      .attr("stroke-width", 2 * boxplotStrokeWidth)
 
     boxPlot.append("line")
       .attr("x1", xScale(gender))
