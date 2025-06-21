@@ -88,5 +88,25 @@ const drawViolinCharts = (data) => {
     .attr("y", 20)
 
 
+  roles.forEach(role => {
+    const roleVioline = innerChart
+      .append("g");
+
+    roleVioline
+      .selectAll(`.bar-${role.id}`)
+      .data(role.bins)
+      .join("rect")
+      .attr("class", `bar-${role.id}`)
+      .attr("x", xScale(role.id))
+      .attr("y", d => yScale(d.x1))
+      .attr("width", d => violinScale(d.length))
+      .attr("height", d => yScale(d.x0) - yScale(d.x1))
+      .attr("fill", slateGray)
+      .attr("fill-opacity", 0.4)
+      .attr("stroke", white)
+      .attr("stroke-width", 2)
+
+
+  });
 
 };
