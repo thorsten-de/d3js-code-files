@@ -1,6 +1,7 @@
 const createTooltip = () => {
   const tooltip = innerChart.append("g")
     .attr("class", "tooltip")
+    .style("opacity", 0)
 
   tooltip.append("rect")
     .attr("width", tooltipWidth)
