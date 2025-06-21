@@ -69,6 +69,8 @@ const drawBoxplot = (data) => {
     const mean = d3.mean(salaries)
     const [min, max] = d3.extent(salaries)
 
+    const color = gender === "Female" ? womenColor : menColor;
+
     console.log({ gender, quartiles, median, mean, min, max })
 
     const boxPlot = innerChart.append("g")
@@ -84,8 +86,9 @@ const drawBoxplot = (data) => {
       .attr("cy", d => yScale(d))
       .attr("r", 3)
       .attr("fill", "#CCCCCC")
-      .attr("stroke", "#AAAAAA")
+      .attr("stroke", color)
       .attr("stroke-width", 1)
+      .attr("opacity", 0.6)
 
 
     boxPlot.append("rect")
@@ -101,7 +104,7 @@ const drawBoxplot = (data) => {
       .attr("x2", xScale(gender) + boxplotWidth / 2)
       .attr("y1", medianY)
       .attr("y2", medianY)
-      .attr("stroke", gender === "Female" ? womenColor : menColor)
+      .attr("stroke", color)
       .attr("stroke-width", 2 * boxplotStrokeWidth)
 
     boxPlot.append("line")
