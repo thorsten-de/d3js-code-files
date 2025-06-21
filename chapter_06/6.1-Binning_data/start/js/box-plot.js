@@ -24,7 +24,16 @@ const drawBoxplot = (data) => {
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   const genders = ["Female", "Male"];
+  const xScale = d3.scalePoint()
+    .domain(genders)
+    .range([0, innerWidth])
+    .padding(0.5);
 
+  const maxSalary = d3.max(data, d => d.salary);
+  const yScale = d3.scaleLinear()
+    .domain([0, maxSalary])
+    .range([innerHeight, 0])
+    .nice();
 
   genders.forEach(gender => {
     const salaries = data
