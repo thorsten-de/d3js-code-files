@@ -27,6 +27,9 @@ const handleMouseEvents = () => {
     .on("mouseenter", (e, d) => {
       console.log(e, d)
 
+      d3.select(".tooltip text")
+        .text(`${d3.format(".3")(d.avg_temp_F)}°F`)
+
       const cx = e.target.getAttribute("cx");
       const cy = e.target.getAttribute("cy");
 
