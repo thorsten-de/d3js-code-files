@@ -35,6 +35,23 @@ const drawBoxplot = (data) => {
     .range([innerHeight, 0])
     .nice();
 
+  const bottomAxis = d3.axisBottom(xScale)
+    .tickSizeOuter(0);
+
+  innerChart.append("g")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomAxis);
+
+  const leftAxis = d3.axisLeft(yScale);
+
+  innerChart.append("g")
+    .call(leftAxis);
+
+  svg.append("text")
+    .text("Yearly salary (USD)")
+    .attr("x", 0)
+    .attr("y", 20)
+
   genders.forEach(gender => {
     const salaries = data
       .filter(d => d.gender === gender)
@@ -50,6 +67,7 @@ const drawBoxplot = (data) => {
     const [min, max] = d3.extent(salaries)
 
     console.log({ gender, quartiles, median, mean, min, max })
+
 
 
 
