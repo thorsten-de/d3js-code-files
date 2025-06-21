@@ -50,4 +50,24 @@ const drawViolinCharts = (data) => {
 
   roles.sort((a, b) => a.mean - b.mean);
   console.log(roles);
+
+  const xScale = d3.scalePoint()
+    .domain(roles.map(r => r.id))
+    .range([0, innerWidth])
+    .padding(0.5);
+
+  const maxSalary = d3.max(data, d => d.salary);
+  const yScale = d3.scaleLinear()
+    .domain([0, maxSalary])
+    .range([innerHeight, 0])
+    .nice();
+
+  const maxBinLength = d3.max(roles, role =>
+    d3.max(role.bins, d => d.length)
+  );
+
+  const violinScale = d3.scaleLinear()
+    .domain([0, maxBinLength])
+    .range([0, xScale.step() / 2]);
+
 };
