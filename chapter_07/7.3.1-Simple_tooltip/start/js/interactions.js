@@ -23,7 +23,13 @@ const createTooltip = () => {
 }
 
 const handleMouseEvents = () => {
+  innerChart.selectAll("circle")
+    .on("mouseenter", (e, d) => {
+      console.log(e, d)
 
-  // Handle mouse events here
-
+      d3.select(".tooltip")
+        .transition()
+        .duration(200)
+        .style("opacity", 1)
+    });
 }
