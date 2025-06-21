@@ -38,5 +38,10 @@ const handleMouseEvents = () => {
         .transition()
         .duration(200)
         .style("opacity", 1)
+    })
+    .on("mouseleave", (e, d) => {
+      d3.select(".tooltip")
+        .style("opacity", 0)
+        .attr("transform", "translate(0, 500)")
     });
 }
