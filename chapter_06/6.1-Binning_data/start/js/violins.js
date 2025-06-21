@@ -70,4 +70,23 @@ const drawViolinCharts = (data) => {
     .domain([0, maxBinLength])
     .range([0, xScale.step() / 2]);
 
+
+  const bottomAxis = d3.axisBottom(xScale)
+    .tickSizeOuter(0);
+
+  innerChart.append("g")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomAxis)
+
+  const leftAxis = d3.axisLeft(yScale);
+  innerChart.append("g")
+    .call(leftAxis);
+
+  svg.append("text")
+    .text("Yearly salary (USD)")
+    .attr("x", 0)
+    .attr("y", 20)
+
+
+
 };
