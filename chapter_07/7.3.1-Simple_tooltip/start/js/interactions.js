@@ -27,7 +27,11 @@ const handleMouseEvents = () => {
     .on("mouseenter", (e, d) => {
       console.log(e, d)
 
+      const cx = e.target.getAttribute("cx");
+      const cy = e.target.getAttribute("cy");
+
       d3.select(".tooltip")
+        .attr("transform", `translate(${cx - 0.5 * tooltipWidth}, ${cy - 1.5 * tooltipHeight})`)
         .transition()
         .duration(200)
         .style("opacity", 1)
