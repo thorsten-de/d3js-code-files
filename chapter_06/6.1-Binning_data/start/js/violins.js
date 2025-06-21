@@ -107,6 +107,19 @@ const drawViolinCharts = (data) => {
       .attr("stroke-width", 2)
 
 
+    const areaGenerator = d3.area()
+      .x0(d => xScale(role.id))
+      .x1(d => xScale(role.id) + violinScale(d.length))
+      .y(d => (yScale(d.x0) + yScale(d.x1)) / 2)
+      .curve(d3.curveCatmullRom);
+
+    roleVioline.append("path")
+      .attr("d", areaGenerator(role.bins))
+      .attr("fill", "transparent")
+      .attr("stroke", slateGray)
+      .attr("stroke-width", 2)
+
+
   });
 
 };
