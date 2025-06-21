@@ -29,8 +29,17 @@ const populateFilters = (data) => {
 /****************************/
 /*   Update the histogram   */
 /****************************/
-const updateHistogram = (selectedFilter, data) => {
+const updateHistogram = (filterId, data) => {
+  const updatedData = filterId === "all"
+    ? data
+    : data.filter(r => r.gender === filterId);
 
-  // Update the histogram here
-
+  const updatedBins = binGenerator(updatedData);
+  d3.selectAll("#histogram rect")
+    .data(updatedBins)
+    .transition()
+    .ease(d3.easeCubicOut)
+    .duration(500)
+    .attr("y", d => yScale(d.length))
+    .attr("height", d => innerHeight - yScale(d.length))
 };
