@@ -63,5 +63,16 @@ const handleMouseEvents = (data) => {
       const xPosition = d3.pointer(e)[0];
       d3.select(".tooltip")
         .attr("transform", `translate(${xPosition}, 0)`);
-    })
+
+      const year = Math.round(xScale.invert(xPosition));
+      d3.select(".tooltip-year")
+        .text(year);
+
+      const yearData = data.find(item => item.year === year)
+      formatsInfo.forEach((format) => {
+        d3.select(`.sales-${format.id}`)
+          .text(`${format.label}: ${d3.format(",.1r")(yearData[format.id])}M$`);
+
+      })
+    });
 };
