@@ -58,7 +58,10 @@ const createTooltip = (data) => {
 };
 
 const handleMouseEvents = (data) => {
-
-  // Handle the mouse events here
-
+  d3.selectAll(".areas-container path")
+    .on("mousemove", e => {
+      const xPosition = d3.pointer(e)[0];
+      d3.select(".tooltip")
+        .attr("transform", `translate(${xPosition}, 0)`);
+    })
 };
