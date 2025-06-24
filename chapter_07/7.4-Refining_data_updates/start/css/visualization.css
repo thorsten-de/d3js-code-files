@@ -11,7 +11,7 @@
 
 /* Axis and labels styles */
 .tick text {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 1.5rem;
 }
 #scatterplot text {

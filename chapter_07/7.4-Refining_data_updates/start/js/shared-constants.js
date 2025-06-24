@@ -1,5 +1,5 @@
 // Chart
-const margin = {top: 50, right: 50, bottom: 50, left: 30};
+const margin = { top: 50, right: 50, bottom: 50, left: 30 };
 const width = 1200;
 const height = 550;
 const innerWidth = width - margin.left - margin.right;
