@@ -11,6 +11,10 @@ const ScatterplotD3Controlled = props => {
   const innerHeight = height - props.margin.top - props.margin.bottom;
 
   const plotRef = useRef();
+  useEffect(() => {
+    const plotContainer = d3.select(plotRef.current);
+    console.log(plotContainer)
+  }, [])
 
   return (
     <Card>
