@@ -65,4 +65,6 @@ const drawScatterplot = (data) => {
     .attr("stroke-width", 2)
     .attr("stroke", d => colorScale(d.status))
     .attr("fill-opacity", 0.6)
+    .append("title")
+    .text(d => d.common_name)
 };

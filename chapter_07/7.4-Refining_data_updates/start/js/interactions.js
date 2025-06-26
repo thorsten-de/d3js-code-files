@@ -57,7 +57,10 @@ const handleClickOnFilter = (data) => {
               .attr("cy", d => yScale(d.max_size_m))
               .attr("r", d => rScale(d.max_weight_t))
               .style("opacity", 1)
-            ),
+            )
+
+            .append("title")
+            .text(d => d.common_name),
           update => update,
 
           exit => exit
@@ -69,4 +72,8 @@ const handleClickOnFilter = (data) => {
             )
         );
     });
+}
+
+const addTooltip = (data) => {
+
 }
