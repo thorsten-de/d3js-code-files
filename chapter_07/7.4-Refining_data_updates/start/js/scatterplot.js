@@ -57,6 +57,7 @@ const drawScatterplot = (data) => {
   innerChart.selectAll("circle")
     .data(data)
     .join("circle")
+    .attr("class", "cetacean")
     .attr("cx", d => xScale(d.global_population_estimate))
     .attr("cy", d => yScale(d.max_size_m))
     .attr("r", d => rScale(d.max_weight_t))
