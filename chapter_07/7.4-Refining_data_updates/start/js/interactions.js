@@ -24,6 +24,11 @@ const handleClickOnFilter = (data) => {
       if (datum.isActive)
         return;
 
+
+      const t = d3.transition()
+        .duration(1000)
+        .ease(d3.easeExpOut);
+
       cetaceanFilters.forEach(h => h.isActive = h.id === datum.id);
 
       d3.selectAll(".filter")
@@ -48,7 +53,7 @@ const handleClickOnFilter = (data) => {
             .attr("stroke-width", 2)
             .attr("stroke", d => colorScale(d.status))
             .attr("fill-opacity", 0.6)
-            .call(enter => enter.transition()
+            .call(enter => enter.transition(t)
               .attr("cy", d => yScale(d.max_size_m))
               .attr("r", d => rScale(d.max_weight_t))
               .style("opacity", 1)
@@ -56,7 +61,7 @@ const handleClickOnFilter = (data) => {
           update => update,
 
           exit => exit
-            .call(exit => exit.transition()
+            .call(exit => exit.transition(t)
               .attr("cy", d => innerHeight)
               .attr("r", 0)
               .style("opacity", 0)
