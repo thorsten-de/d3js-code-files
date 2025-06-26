@@ -19,7 +19,31 @@ const populateFilters = () => {
 };
 
 const handleClickOnFilter = (data) => {
+  d3.selectAll(".filter")
+    .on("click", (e, datum) => {
+      if (datum.isActive)
+        return;
 
-  // Handle clicks on filters here
+      cetaceanFilters.forEach(h => h.isActive = h.id === datum.id);
 
-};
+      d3.selectAll(".filter")
+        .classed("active", d => d.id === datum.id)
+
+      const updatedData = datum.id === "all"
+        ? data
+        : data.filter(d => d.hemisphere === datum.id)
+
+      innerChart
+        .selectAll("circle")
+        .data(updatedData, d => d.uid)
+        .join("circle")
+        .transition()
+        .attr("cx", d => xScale(d.global_population_estimate))
+        .attr("cy", d => yScale(d.max_size_m))
+        .attr("r", d => rScale(d.max_weight_t))
+        .attr("fill", d => colorScale(d.status))
+        .attr("stroke-width", 2)
+        .attr("stroke", d => colorScale(d.status))
+        .attr("fill-opacity", 0.6);
+    });
+}
