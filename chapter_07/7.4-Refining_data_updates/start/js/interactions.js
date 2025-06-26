@@ -18,12 +18,13 @@ const populateFilters = () => {
 
 };
 
+
+
 const handleClickOnFilter = (data) => {
   d3.selectAll(".filter")
     .on("click", (e, datum) => {
       if (datum.isActive)
         return;
-
 
       const t = d3.transition()
         .duration(1000)
@@ -42,25 +43,26 @@ const handleClickOnFilter = (data) => {
         .selectAll("circle")
         .data(updatedData, d => d.uid)
         .join(
-          enter => enter
-            .append("circle")
-            .attr("class", "cetacean")
-            .attr("cy", d => -50)
-            .attr("r", 0)
-            .style("opacity", 0)
-            .attr("cx", d => xScale(d.global_population_estimate))
-            .attr("fill", d => colorScale(d.status))
-            .attr("stroke-width", 2)
-            .attr("stroke", d => colorScale(d.status))
-            .attr("fill-opacity", 0.6)
-            .call(enter => enter.transition(t)
-              .attr("cy", d => yScale(d.max_size_m))
-              .attr("r", d => rScale(d.max_weight_t))
-              .style("opacity", 1)
-            )
+          enter => {
+            const circles = enter
+              .append("circle")
+              .attr("class", "cetacean")
+              .attr("cy", d => -50)
+              .attr("r", 0)
+              .style("opacity", 0)
+              .attr("cx", d => xScale(d.global_population_estimate))
+              .attr("fill", d => colorScale(d.status))
+              .attr("stroke-width", 2)
+              .attr("stroke", d => colorScale(d.status))
+              .attr("fill-opacity", 0.6)
+              .call(enter => enter.transition(t)
+                .attr("cy", d => yScale(d.max_size_m))
+                .attr("r", d => rScale(d.max_weight_t))
+                .style("opacity", 1)
+              )
+            handleTooltip(circles);
+          },
 
-            .append("title")
-            .text(d => d.common_name),
           update => update,
 
           exit => exit
@@ -74,6 +76,29 @@ const handleClickOnFilter = (data) => {
     });
 }
 
-const addTooltip = (data) => {
+const drawTooltip = (data) => {
+  innerChart.append("text")
+    .attr("class", "tooltip")
+    .attr("x", 100)
+    .attr("y", 100)
+    .attr("text-anchor", "middle")
+    .style("opacity", 0)
 
+  handleTooltip(innerChart.selectAll("circle"))
 }
+
+const handleTooltip = elements => elements
+  .on("mouseenter", (e, d) => {
+    d3.select(".tooltip")
+      .text(d.common_name)
+      .attr("x", e.target.getAttribute("cx"))
+      .attr("y", e.target.getAttribute("cy") - e.target.getAttribute("r") - 10)
+      .transition()
+      .style("opacity", 1)
+  })
+  .on("mouseleave", (e, d) => {
+    d3.select(".tooltip")
+      .transition()
+      .style("opacity", 0)
+      .attr("x," - 100)
+  })
