@@ -5,20 +5,21 @@ import ScatterplotD3Controlled from './ScatterplotD3Controlled';
 import BarChart from './BarChart';
 
 const Charts = props => {
+  const margin = { top: 30, right: 10, bottom: 50, left: 60 }
   return (
     <Fragment>
       <h1>Front-end Frameworks</h1>
       <div className='row'>
         <div className='col-9'>
-          <Rankings />
+          <Rankings margin={margin} />
         </div>
         <div className='col-3'>
           <div className='row'>
             <div className='col-12'>
-              <ScatterplotD3Controlled />
+              <ScatterplotD3Controlled margin={margin} />
             </div>
             <div className='col-12'>
-              <BarChart />
+              <BarChart margin={margin} />
             </div>
           </div>
         </div>
