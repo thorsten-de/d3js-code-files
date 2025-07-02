@@ -42,7 +42,15 @@ const AxisLeft = props => {
 
 const AxisBandBottom = props => {
   return (
-    <g></g>
+    <g className="axis" transform={`translate(0, ${props.innerHeight})`}>
+      <line x1={0} y1={0} x2={props.innerWidth} y2={0} />
+      {props.labels && props.labels.map(({ label: label, id: id }) =>
+        <text className="axis-label" textAnchor="end" dominantBaseline="middle" key={id}
+          transform={`translate(${props.scale(id) + props.scale.bandwidth() / 2}, 10 ) rotate(270)`}>
+          {label}
+        </text>
+      )}
+    </g>
   );
 };
 

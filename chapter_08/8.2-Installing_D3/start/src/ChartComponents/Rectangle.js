@@ -1,6 +1,15 @@
 const Rectangle = props => {
   return (
-    <rect />
+    <rect
+      x={props.x}
+      y={props.y}
+      width={props.width}
+      height={props.height}
+      fill={props.fill}
+      stroke={props.stroke ?? "none"}
+      strokeWidth={props.strokeWidth ?? 0}
+    />
+
   )
 };
 

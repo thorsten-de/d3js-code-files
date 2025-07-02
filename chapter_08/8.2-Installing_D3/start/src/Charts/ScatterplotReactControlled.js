@@ -10,8 +10,6 @@ const ScatterplotReactControlled = props => {
   const innerWidth = width - props.margin.left - props.margin.right;
   const innerHeight = height - props.margin.top - props.margin.bottom;
 
-  console.log(props)
-
   const xScale = d3.scaleLinear()
     .domain([0, d3.max(props.data, d => d.user_count)])
     .range([0, innerWidth])

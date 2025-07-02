@@ -28,7 +28,7 @@ const Charts = props => {
               <ScatterplotReactControlled margin={margin} data={props.data.experience} colorScale={colorScale} />
             </div>
             <div className='col-12'>
-              <BarChart margin={margin} />
+              <BarChart margin={margin} data={props.data.experience} colorScale={colorScale} />
             </div>
           </div>
         </div>
