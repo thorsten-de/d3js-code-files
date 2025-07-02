@@ -6,7 +6,7 @@ const Label = props => {
       fill={props.color}
       textAnchor={props.textAnchor ?? "start"}
       alignmentBaseline={props.baseline ?? "middle"}
-      style={{ fontWeight: "bold" }}
+      style={{ fontWeight: "bold", fontSize: props.fontSize }}
     >
       {props.label}
     </text>

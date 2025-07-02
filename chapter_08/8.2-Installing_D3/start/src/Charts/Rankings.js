@@ -6,6 +6,7 @@ import ChartContainer from '../ChartComponents/ChartContainer';
 import Curve from '../ChartComponents/Curve';
 import Label from '../ChartComponents/Label';
 import * as d3 from 'd3';
+import Badge from '../UI/Badge';
 
 const rankingFilters = [
   { id: "satisfaction", label: "Satisfaction" },
@@ -53,6 +54,7 @@ const Rankings = props => {
         ))}
         {props.data.experience.map((framework, i) => {
           const filteredFrameworks = framework[activeFilter];
+          console.log(filteredFrameworks)
           return (
             <g key={`curve-${framework.id}`}>
               <Curve
@@ -64,6 +66,14 @@ const Rankings = props => {
                 stroke={props.colorScale(framework.id)}
                 strokeWidth={5}
               />
+              {filteredFrameworks.filter(data => data.rank !== null).map(data => (
+                <Badge
+                  x={xScale(data.year)}
+                  y={yScale(data.rank)}
+                  stroke={props.colorScale(framework.id)}
+                  strokeWidth={4}
+                  label={d3.format(".0f")(data.percentage_question) + "%"} />
+              ))}
               {filteredFrameworks[0].rank &&
                 <Label x={-25} y={yScale(filteredFrameworks[0].rank)}
                   color={props.colorScale(framework.id)}
