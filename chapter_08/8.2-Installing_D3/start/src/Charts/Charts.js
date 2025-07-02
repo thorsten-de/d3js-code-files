@@ -19,7 +19,7 @@ const Charts = props => {
       <h1>Front-end Frameworks</h1>
       <div className='row'>
         <div className='col-9'>
-          <Rankings margin={margin} />
+          <Rankings margin={margin} data={props.data} colorScale={colorScale} />
         </div>
         <div className='col-3'>
           <div className='row'>
