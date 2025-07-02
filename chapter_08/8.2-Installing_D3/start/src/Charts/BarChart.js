@@ -19,7 +19,7 @@ const BarChart = props => {
     .range([innerHeight, 0])
 
   const getAwareness = framework =>
-    d3.max(framework.awareness, d => d.percentage_question)
+    framework.awareness[framework.awareness.length - 1].percentage_question;
 
   const awarenessData = props.data.map(d => {
     return { id: d.id, label: d.name, awareness: getAwareness(d) };
