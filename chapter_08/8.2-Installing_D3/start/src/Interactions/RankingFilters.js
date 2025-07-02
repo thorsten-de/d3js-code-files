@@ -11,6 +11,7 @@ const RankingFilters = props => {
           id={filter.id}
           label={filter.label}
           isActive={props.activeFilter === filter.id ? true : false}
+          onClick={props.onFilterSelection}
         />
       ))}
     </div>

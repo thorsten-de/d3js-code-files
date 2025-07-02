@@ -32,12 +32,19 @@ const Rankings = props => {
     .domain(d3.range(1, props.data.ids.length + 1))
     .range([0, innerHeight])
 
+  const filterSelectionHandler = id => {
+    if (activeFilter !== id) {
+      setActiveFilter(id);
+    }
+  }
+
   return (
     <Card>
       <h2>Rankings</h2>
       <RankingFilters
         filters={rankingFilters}
         activeFilter={activeFilter}
+        onFilterSelection={filterSelectionHandler}
       />
       <ChartContainer width={width} height={height} margin={margin}>
         {props.data.years.map(year => (
