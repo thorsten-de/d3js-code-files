@@ -21,17 +21,15 @@ const BarChart = props => {
   const getAwareness = framework =>
     d3.max(framework.awareness, d => d.percentage_question)
 
-  const ids = props.data.sort((f1, f2) => getAwareness(f2) - getAwareness(f1))
-    .map(framework => framework.id)
+  const awarenessData = props.data.map(d => {
+    return { id: d.id, label: d.name, awareness: getAwareness(d) };
+  })
+  awarenessData.sort((f1, f2) => f2.awareness - f1.awareness)
 
   const xScale = d3.scaleBand()
-    .domain(ids)
+    .domain(awarenessData.map(d => d.id))
     .range([0, innerWidth])
     .padding(0.2)
-
-  const labels = props.data.map(d => {
-    return { id: d.id, label: d.name };
-  })
 
   return (
     <Card>
@@ -39,14 +37,13 @@ const BarChart = props => {
       <ChartContainer width={width} height={height} margin={props.margin}>
         <Axis type="left" scale={yScale} innerHeight={innerHeight} innerWidth={innerWidth}
           label="Awareness %" />
-        <Axis type="band" scale={xScale} innerWidth={innerWidth} innerHeight={innerHeight} labels={labels} />
-        {props.data.map(framework => {
-          console.log({ framework: framework.id, awareness: getAwareness(framework) })
+        <Axis type="band" scale={xScale} innerWidth={innerWidth} innerHeight={innerHeight} labels={awarenessData} />
+        {awarenessData.map(framework => {
           return <Rectangle key={`rectangle-${framework.id}`}
             x={xScale(framework.id)}
-            y={yScale(getAwareness(framework))}
+            y={yScale(framework.awareness)}
             width={xScale.bandwidth()}
-            height={innerHeight - yScale(getAwareness(framework))}
+            height={innerHeight - yScale(framework.awareness)}
             fill={props.colorScale(framework.id)}
           />
         })};
