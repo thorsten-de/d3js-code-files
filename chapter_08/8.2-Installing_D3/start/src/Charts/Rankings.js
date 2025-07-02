@@ -75,6 +75,7 @@ const Rankings = props => {
               />
               {filteredFrameworks.filter(data => data.rank !== null).map(data => (
                 <Badge
+                  key={data.year}
                   x={xScale(data.year)}
                   y={yScale(data.rank)}
                   stroke={props.colorScale(framework.id)}
