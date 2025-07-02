@@ -1,6 +1,5 @@
 import * as d3 from "d3"
 const Curve = props => {
-  console.log(props.data)
   const lineGenerator = d3.line()
     .x(d => props.xScale(props.xAccessor(d)))
     .y(d => props.yScale(props.yAccessor(d)))

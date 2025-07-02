@@ -4,6 +4,7 @@ import RankingFilters from '../Interactions/RankingFilters';
 import Card from '../UI/Card';
 import ChartContainer from '../ChartComponents/ChartContainer';
 import Curve from '../ChartComponents/Curve';
+import Label from '../ChartComponents/Label';
 import * as d3 from 'd3';
 
 const rankingFilters = [
@@ -17,17 +18,14 @@ const Rankings = props => {
   const [activeFilter, setActiveFilter] = useState("satisfaction");
   const width = 1000;
   const height = 542;
-  const marginRight = 150;
-  const marginLeft = 110;
-  const innerWidth = width - marginLeft - marginRight;
-  const innerHeight = height - props.margin.top - props.margin.bottom;
+  const margin = { left: 110, top: props.margin.top, right: 150, bottom: props.margin.bottom }
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
 
-  console.log(props.data.years)
 
   const xScale = d3.scalePoint()
     .domain(props.data.years)
     .range([0, innerWidth]);
-  console.log({ x: xScale(2016), innerWidth });
 
   const yScale = d3.scalePoint()
     .domain(d3.range(1, props.data.ids.length + 1))
@@ -40,7 +38,7 @@ const Rankings = props => {
         filters={rankingFilters}
         activeFilter={activeFilter}
       />
-      <ChartContainer width={width} height={height} margin={props.margin}>
+      <ChartContainer width={width} height={height} margin={margin}>
         {props.data.years.map(year => (
           <g key={`line-year-${year}`}
             className="axis"
@@ -53,19 +51,35 @@ const Rankings = props => {
 
           </g>
         ))}
-        {props.data.experience.map((framework, i) => (
-          <g key={`curve-${framework.id}`}>
-            <Curve
-              data={framework[activeFilter]}
-              xScale={xScale}
-              yScale={yScale}
-              xAccessor={d => d.year}
-              yAccessor={d => d.rank}
-              stroke={props.colorScale(framework.id)}
-              strokeWidth={5}
-            />
-          </g>
-        ))}
+        {props.data.experience.map((framework, i) => {
+          const filteredFrameworks = framework[activeFilter];
+          return (
+            <g key={`curve-${framework.id}`}>
+              <Curve
+                data={filteredFrameworks}
+                xScale={xScale}
+                yScale={yScale}
+                xAccessor={d => d.year}
+                yAccessor={d => d.rank}
+                stroke={props.colorScale(framework.id)}
+                strokeWidth={5}
+              />
+              {filteredFrameworks[0].rank &&
+                <Label x={-25} y={yScale(filteredFrameworks[0].rank)}
+                  color={props.colorScale(framework.id)}
+                  label={framework.name}
+                  textAnchor="end" />
+              }
+              <Label
+                x={innerWidth + 25}
+                y={yScale(filteredFrameworks[filteredFrameworks.length - 1].rank)}
+                color={props.colorScale(framework.id)}
+                label={framework.name}
+                textAnchor="start"
+              />
+            </g>
+          )
+        })}
       </ChartContainer>
     </Card>
   )
