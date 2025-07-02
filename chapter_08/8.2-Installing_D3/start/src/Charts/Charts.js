@@ -4,6 +4,7 @@ import Rankings from './Rankings';
 import ScatterplotD3Controlled from './ScatterplotD3Controlled';
 import BarChart from './BarChart';
 import * as d3 from 'd3';
+import ScatterplotReactControlled from './ScatterplotReactControlled';
 
 
 const Charts = props => {
@@ -23,7 +24,8 @@ const Charts = props => {
         <div className='col-3'>
           <div className='row'>
             <div className='col-12'>
-              <ScatterplotD3Controlled margin={margin} data={props.data.experience} colorScale={colorScale} />
+              {/* <ScatterplotD3Controlled margin={margin} data={props.data.experience} colorScale={colorScale} /> */}
+              <ScatterplotReactControlled margin={margin} data={props.data.experience} colorScale={colorScale} />
             </div>
             <div className='col-12'>
               <BarChart margin={margin} />
