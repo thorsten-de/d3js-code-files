@@ -41,6 +41,18 @@ const Rankings = props => {
         activeFilter={activeFilter}
       />
       <ChartContainer width={width} height={height} margin={props.margin}>
+        {props.data.years.map(year => (
+          <g key={`line-year-${year}`}
+            className="axis"
+            transform={`translate(${xScale(year)}, 0)`}
+          >
+            <line x1={0} y1={innerHeight} x2={0} y2={0} strokeDasharray={"6 4"} />
+            <text x={0} y={innerHeight + 30} textAnchor="middle">
+              {year}
+            </text>
+
+          </g>
+        ))}
         {props.data.experience.map((framework, i) => (
           <g key={`curve-${framework.id}`}>
             <Curve
