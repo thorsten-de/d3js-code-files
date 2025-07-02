@@ -1,3 +1,5 @@
+import "./Label.css"
+
 const Rectangle = props => {
   return (
     <rect

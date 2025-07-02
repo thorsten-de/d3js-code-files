@@ -1,15 +1,18 @@
 const Label = props => {
   return (
-    <text
-      x={props.x}
-      y={props.y}
-      fill={props.color}
-      textAnchor={props.textAnchor ?? "start"}
-      alignmentBaseline={props.baseline ?? "middle"}
-      style={{ fontWeight: "bold", fontSize: props.fontSize }}
-    >
-      {props.label}
-    </text>
+    <g className="label"
+      style={{ transform: `translate(${props.x}px, ${props.y}px)` }} >
+      <text
+        x={0}
+        y={0}
+        fill={props.color}
+        textAnchor={props.textAnchor ?? "start"}
+        alignmentBaseline={props.baseline ?? "middle"}
+        style={{ fontWeight: "bold", fontSize: props.fontSize }}
+      >
+        {props.label}
+      </text>
+    </g >
   );
 };
 
