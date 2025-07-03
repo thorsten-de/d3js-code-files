@@ -26,6 +26,8 @@ const getWindowWidth = () => {
 
 let windowWidth = getWindowWidth();
 
+let isDesktopLayout = windowWidth >= 700;
+
 // Generators
 let bottomAxis;
 let leftAxis;

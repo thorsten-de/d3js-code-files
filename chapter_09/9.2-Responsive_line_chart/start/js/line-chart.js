@@ -53,7 +53,8 @@ const drawLineChart = (data) => {
     .attr("y", "10px");
 
   // Left axis
-  leftAxis = d3.axisLeft(yScale);
+  leftAxis = d3.axisLeft(yScale)
+    .ticks(isDesktopLayout ? 10 : 5);
   innerChart
     .append("g")
     .attr("class", "axis-y")
