@@ -8,20 +8,20 @@ const drawLineChart = (data) => {
   // Append the SVG container
   const svg = d3.select("#line-chart")
     .append("svg")
-      .attr("viewBox", `0, 0, ${width}, ${height}`);
+    .attr("viewBox", `0, 0, ${width}, ${height}`);
 
   // Append the group that will contain the inner chart
   innerChart = svg
     .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  
+
   /****************************/
   /*    Declare the scales    */
   /****************************/
   // X scale
   const firstDate = new Date(2021, 00, 01, 0, 0, 0);
-  const lastDate = d3.max(data, d => d.date);
+  const lastDate = d3.max(data, d => d.date);
   xScale
     .domain([firstDate, lastDate])
     .range([0, innerWidth]);
@@ -32,7 +32,7 @@ const drawLineChart = (data) => {
     .domain([0, maxTemp])
     .range([innerHeight, 0]);
 
-  
+
   /***************************/
   /*     Append the axes     */
   /***************************/
@@ -41,9 +41,9 @@ const drawLineChart = (data) => {
     .tickFormat(d3.timeFormat("%b"));
   innerChart
     .append("g")
-      .attr("class", "axis-x")
-      .attr("transform", `translate(0, ${innerHeight})`)
-      .call(bottomAxis);
+    .attr("class", "axis-x")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomAxis);
   positionXaxisLabels();
 
   // Left axis
@@ -51,8 +51,8 @@ const drawLineChart = (data) => {
     .ticks(isDesktopLayout ? 10 : 5);
   innerChart
     .append("g")
-      .attr("class", "axis-y")
-      .call(leftAxis);
+    .attr("class", "axis-y")
+    .call(leftAxis);
 
   // Set the font-family and font-size property of axis labels
   // This could also be handled from a CSS file
@@ -63,10 +63,10 @@ const drawLineChart = (data) => {
   // Add label to the y-axis
   svg
     .append("text")
-      .text("Temperature (°F)")
-      .attr("y", 20);
+    .text("Temperature (°F)")
+    .attr("y", 20);
 
-  
+
   /************************************************/
   /*   Area chart of the temperature variability  */
   /************************************************/
@@ -80,12 +80,12 @@ const drawLineChart = (data) => {
   // Draw the area
   innerChart
     .append("path")
-      .attr("class", "temperature-area")
-      .attr("d", areaGenerator(data))
-      .attr("fill", aubergine)
-      .attr("fill-opacity", 0.2);
+    .attr("class", "temperature-area")
+    .attr("d", areaGenerator(data))
+    .attr("fill", aubergine)
+    .attr("fill-opacity", 0.2);
 
-  
+
   /*********************************************/
   /*   Line chart of the average temperature   */
   /*********************************************/
@@ -94,31 +94,31 @@ const drawLineChart = (data) => {
     .selectAll("circle")
     .data(data)
     .join("circle")
-      .attr("r", 5)
-      .attr("cx", d => xScale(d.date))
-      .attr("cy", d => yScale(d.avg_temp_F))
-      .attr("fill", aubergine);
-    
+    .attr("r", 5)
+    .attr("cx", d => xScale(d.date))
+    .attr("cy", d => yScale(d.avg_temp_F))
+    .attr("fill", aubergine);
+
   // Initialize the line/curve generator
   curveGenerator
     .x(d => xScale(d.date))
     .y(d => yScale(d.avg_temp_F))
     .curve(d3.curveCatmullRom);
-    
+
   // Draw the line/curve
   innerChart
     .append("path")
-      .attr("class", "temperature-curve")
-      .attr("d", curveGenerator(data))
-      .attr("fill", "none")
-      .attr("stroke", aubergine);
+    .attr("class", "temperature-curve")
+    .attr("d", curveGenerator(data))
+    .attr("fill", "none")
+    .attr("stroke", aubergine);
 
-      
+
   /*****************************/
   /*      Add annotations      */
   /*****************************/
   if (isDesktopLayout) {
-    appendAnnotations();
+    appendAnnotations(data, xScale, yScale);
   }
 
   resizeChart();

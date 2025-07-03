@@ -86,6 +86,7 @@ const drawLineChart = (data) => {
   // Draw the area
   innerChart
     .append("path")
+    .attr("class", "temperature-area")
     .attr("d", areaGenerator(data))
     .attr("fill", aubergine)
     .attr("fill-opacity", 0.2);
@@ -113,6 +114,7 @@ const drawLineChart = (data) => {
   // Draw the line/curve
   innerChart
     .append("path")
+    .attr("class", "temperature-curve")
     .attr("d", curveGenerator(data))
     .attr("fill", "none")
     .attr("stroke", aubergine);
@@ -121,7 +123,9 @@ const drawLineChart = (data) => {
   /*****************************/
   /*      Add annotations      */
   /*****************************/
-  appendAnnotations(data, xScale, yScale);
+  if (isDesktopLayout) {
+    appendAnnotations(data, xScale, yScale);
+  }
 
   d3.selectAll("#line-chart text")
     .style("font-size", `${fontSizeScale(windowWidth)}px`);

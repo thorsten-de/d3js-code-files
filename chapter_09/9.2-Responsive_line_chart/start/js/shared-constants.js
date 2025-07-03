@@ -1,5 +1,18 @@
+const getWindowWidth = () => {
+  return window.innerWidth;
+}
+
+let windowWidth = getWindowWidth();
+
+let isDesktopLayout = windowWidth >= 700;
+
 // Chart
-const margin = { top: 35, right: 170, bottom: 35, left: 45 };
+const margin = {
+  top: 35,
+  right: isDesktopLayout ? 200 : 10,
+  bottom: 35,
+  left: 45
+};
 const width = 1200;
 const height = 500;
 let innerWidth = width - margin.left - margin.right;
@@ -20,13 +33,7 @@ const fontSizeScale = d3.scaleLinear()
   .range([26, 16])
   .clamp(true)
 
-const getWindowWidth = () => {
-  return window.innerWidth;
-}
 
-let windowWidth = getWindowWidth();
-
-let isDesktopLayout = windowWidth >= 700;
 
 // Generators
 let bottomAxis;
