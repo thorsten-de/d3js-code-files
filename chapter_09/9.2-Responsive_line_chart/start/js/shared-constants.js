@@ -1,5 +1,5 @@
 // Chart
-const margin = {top: 35, right: 170, bottom: 35, left: 45};
+const margin = { top: 35, right: 170, bottom: 35, left: 45 };
 const width = 1200;
 const height = 500;
 let innerWidth = width - margin.left - margin.right;
@@ -14,6 +14,17 @@ const tooltipHeight = 32;
 // Scales
 const xScale = d3.scaleTime();
 const yScale = d3.scaleLinear();
+
+const fontSizeScale = d3.scaleLinear()
+  .domain([600, 1000])
+  .range([26, 16])
+  .clamp(true)
+
+const getWindowWidth = () => {
+  return window.innerWidth;
+}
+
+let windowWidth = getWindowWidth();
 
 // Generators
 let bottomAxis;
