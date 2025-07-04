@@ -6,7 +6,7 @@ import ScatterplotReactControlled from './ScatterplotReactControlled';
 import BarChart from './BarChart';
 
 const Charts = props => {
-  const margin = {top: 30, right: 10, bottom: 50, left: 60};
+  const margin = { top: 30, right: 10, bottom: 50, left: 60 };
 
   const colorScale = d3.scaleOrdinal()
     .domain(props.data.ids)
@@ -16,26 +16,26 @@ const Charts = props => {
     <Fragment>
       <h1>Front-end Frameworks</h1>
       <div className='row'>
-        <div className='col-9'>
-          <Rankings 
-            margin={margin} 
+        <div className='col-12 col-lg-9'>
+          <Rankings
+            margin={margin}
             data={props.data}
             colorScale={colorScale}
           />
         </div>
-        <div className='col-3'>
+        <div className='col-12 col-lg-3'>
           <div className='row'>
-            <div className='col-12'>
-              <ScatterplotReactControlled 
+            <div className='col-12 col-md-6 col-lg-12'>
+              <ScatterplotReactControlled
                 margin={margin}
                 data={props.data.experience}
                 colorScale={colorScale}
               />
             </div>
-            <div className='col-12'>
-              <BarChart 
-                data={props.data.experience} 
-                margin={margin} 
+            <div className='col-12 col-md-6 col-lg-12'>
+              <BarChart
+                data={props.data.experience}
+                margin={margin}
                 colorScale={colorScale}
               />
             </div>
