@@ -5,6 +5,7 @@ import Rankings from './Rankings';
 import RankingsMobile from './RankingsMobile'
 import ScatterplotReactControlled from './ScatterplotReactControlled';
 import BarChart from './BarChart';
+import BarChartMobile from './BarChartMobile';
 
 const rankingFilters = [
   { id: "satisfaction", label: "Satisfaction" },
@@ -85,11 +86,18 @@ const Charts = props => {
               />
             </div>
             <div className='col-12 col-md-6 col-lg-12'>
-              <BarChart
-                data={props.data.experience}
-                margin={margin}
-                colorScale={colorScale}
-              />
+              {layout === "desktop" ?
+                <BarChart
+                  data={props.data.experience}
+                  margin={margin}
+                  colorScale={colorScale}
+                />
+                : <BarChartMobile
+                  data={props.data.experience}
+                  margin={margin}
+                  colorScale={colorScale}
+                />
+              }
             </div>
           </div>
         </div>

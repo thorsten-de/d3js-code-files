@@ -71,7 +71,25 @@ const AxisBandBottom = props => {
       ))}
     </g>
   );
-};
+}
+
+const AxisBandLeft = props => {
+  return (
+    <g className="axis">
+      <line x1={0} y1={0} x2={0} y2={props.innerHeight} />
+      {props.ticks.map(tick => (
+        <text
+          key={tick}
+          textAnchor="end"
+          alignmentBaseline="middle"
+          transform={`translate(-10 ${props.scale(tick) + props.scale.bandwidth() / 2}) `}
+        >
+          {tick}
+        </text>
+      ))}
+    </g>
+  );
+}
 
 const Axis = props => {
 
@@ -82,7 +100,8 @@ const Axis = props => {
       return AxisLeft(props);
     case "band":
       return AxisBandBottom(props);
-    // no default
+    case "verticalBand":
+      return AxisBandLeft(props)
   };
 
 };
