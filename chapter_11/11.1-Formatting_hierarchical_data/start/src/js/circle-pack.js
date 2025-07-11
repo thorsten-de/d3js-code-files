@@ -1,5 +1,7 @@
 import { pack } from "d3-hierarchy";
-import { select } from "d3-selection";
+import { select, selectAll } from "d3-selection";
+import { interpolate } from "d3-interpolate";
+import { colorScale } from "./scales";
 
 export const drawCirclePack = root => {
   const descendants = root.descendants();
@@ -20,6 +22,8 @@ export const drawCirclePack = root => {
     .padding(3)
 
   packLayoutGenerator(root);
+  console.log(root);
+
 
   const svg = select("#circle-pack")
     .append("svg")
@@ -34,6 +38,15 @@ export const drawCirclePack = root => {
     .attr("cx", d => d.x)
     .attr("cy", d => d.y)
     .attr("r", d => d.r)
-    .attr("fill", "none")
-    .attr("stroke", "black");
+    .attr("fill", (d => {
+      switch (d.depth) {
+        case 1:
+          return colorScale(d.id);
+        case 2:
+          return interpolate(colorScale(d.parent.id), "#FFFFFF")(0.5);
+        default:
+          return "white";
+      }
+    }))
+    .attr("stroke", d => d.depth > 0 ? "none" : "gray");
 }
