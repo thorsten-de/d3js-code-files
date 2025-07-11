@@ -1,4 +1,4 @@
-import { select } from "d3-selection";
+import { select, selectAll } from "d3-selection";
 import { treemap } from "d3-hierarchy";
 import { colorScale } from "./scales";
 
@@ -44,13 +44,24 @@ export const drawTreemap = root => {
     .append("title")
     .text(d => d.id)
 
+  const labelClass = d => `treemap-label-${d.id.replaceAll(" ", "-").replaceAll("'", "")}`
+
   svg.selectAll(".treemap-node")
     .append("text")
-    .attr("x", d => d.x0 + 8)
-    .attr("y", d => d.y0 + 8)
+    .attr("class", d => "treemap-label " + labelClass(d))
+    .attr("x", d => d.x0 + 5)
+    .attr("y", d => d.y0 + 15)
     .attr("fill", "white")
-    .attr("dominant-baseline", "hanging")
-    .text(d => d.x1 - d.x0 > (d.id.length * 10) && d.y1 - d.y0 > 20 ? d.id : "")
+    .style("font-size", "12px")
+    .style("font-weight", 500)
+    .text(d => d.id)
 
+  selectAll(".treemap-label")
+    .style("opacity", d => {
+      const textElement = document.querySelector("." + labelClass(d));
+      const textWidth = textElement.getBBox().width;
+      console.log(textWidth);
+      return (d.y1 - d.y0) >= 25 && ((d.x1 - d.x0) >= textWidth + 10) ? 1 : 0
+    });
 
 }
