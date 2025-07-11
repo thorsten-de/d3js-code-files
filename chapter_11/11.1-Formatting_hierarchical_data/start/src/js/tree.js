@@ -35,4 +35,15 @@ export const drawTree = root => {
     .attr("fill", "none")
     .attr("stroke", "gray")
     .attr("stroke-opacity", 0.6);
-}
+
+  svg.selectAll(".node-tree")
+    .data(root)
+    .join("circle")
+    .attr("class", "node-tree")
+    .attr("cx", d => d.y)
+    .attr("cy", d => d.x)
+    .attr("r", 4)
+    .attr("fill", "white")
+    .attr("fill-opacity", 1)
+    .attr("stroke", "gray")
+} 
