@@ -37,8 +37,6 @@ export const drawTree = root => {
     }
   }
 
-  console.log(root.links())
-
   svg.selectAll(".tree-link")
     .data(root.links())
     .join("path")

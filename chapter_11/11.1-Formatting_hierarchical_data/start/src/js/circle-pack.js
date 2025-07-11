@@ -23,7 +23,6 @@ export const drawCirclePack = root => {
     .padding(3)
 
   packLayoutGenerator(root);
-  console.log(root);
 
 
   const svg = select("#circle-pack")
