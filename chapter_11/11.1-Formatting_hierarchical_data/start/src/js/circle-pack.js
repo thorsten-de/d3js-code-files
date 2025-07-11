@@ -1,6 +1,7 @@
 import { pack } from "d3-hierarchy";
 import { select, selectAll } from "d3-selection";
 import { interpolate } from "d3-interpolate";
+import { format } from "d3-format";
 import { colorScale } from "./scales";
 
 export const drawCirclePack = root => {
@@ -34,7 +35,7 @@ export const drawCirclePack = root => {
   svg.selectAll(".pack-circle")
     .data(root)
     .join("circle")
-    .attr("class", "pack-circle")
+    .attr("class", d => `pack-circle pack-circle-depth-${d.depth}`)
     .attr("cx", d => d.x)
     .attr("cy", d => d.y)
     .attr("r", d => d.r)
@@ -64,4 +65,20 @@ export const drawCirclePack = root => {
     .attr("class", "leaf-label")
     .text(d => d.id);
 
+  // add tooltips
+  selectAll(".pack-circle-depth-3, foreignObject")
+    .on("mouseenter", (e, d) => {
+      select("#info .info-language").text(d.id);
+      select("#info .info-branch .information").text(d.parent.id);
+      select("#info .info-family .information").text(d.parent.parent.id);
+      select("#info .info-total-speakers .information").text(format(".3s")(d.data.total_speakers));
+      select("#info .info-native-speakers .information").text(format(".3s")(d.data.native_speakers));
+
+      select("#instructions").classed("hidden", true);
+      select("#info").classed("hidden", false);
+    })
+    .on("mouseleave", () => {
+      select("#instructions").classed("hidden", false);
+      select("#info").classed("hidden", true)
+    });
 }
