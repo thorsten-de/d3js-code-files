@@ -8,3 +8,8 @@ export const loadCsvData = () => {
 
   return csvData;
 };
+
+export const loadJsonData = () => {
+  const jsonData = require("../data/hierarchical-data.json");
+  return jsonData;
+}

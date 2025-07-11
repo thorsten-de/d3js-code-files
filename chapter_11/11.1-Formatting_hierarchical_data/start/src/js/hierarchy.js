@@ -1,4 +1,4 @@
-import { stratify } from "d3-hierarchy";
+import { stratify, hierarchy } from "d3-hierarchy";
 
 export const CsvToHierarchy = data => {
   const hierarchyGenerator = stratify()
@@ -8,4 +8,10 @@ export const CsvToHierarchy = data => {
   const root = hierarchyGenerator(data);
 
   return [root, root.descendants(), root.leaves()]
+}
+
+export const JsonToHierarchy = data => {
+  const root = hierarchy(data);
+
+  return [root, root.descendants(), root.leaves()];
 }
