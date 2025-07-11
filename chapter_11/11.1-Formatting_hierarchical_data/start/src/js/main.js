@@ -1,4 +1,7 @@
 import { loadCsvData } from "./load-data";
+import { CsvToHierarchy } from "./hierarchy";
 
 const flatData = loadCsvData();
-console.log(flatData)
+
+const [root, descendants, leaves] = CsvToHierarchy(flatData)
+console.log({ root, descendants, leaves })
