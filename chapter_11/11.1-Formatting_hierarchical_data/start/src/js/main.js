@@ -2,6 +2,7 @@ import { loadCsvData, loadJsonData } from "./load-data";
 import { CsvToHierarchy, JsonToHierarchy } from "./hierarchy";
 import { drawCirclePack } from "./circle-pack";
 import { drawTree } from "./tree";
+import { createLegend } from "./legend";
 
 const flatData = loadCsvData();
 
@@ -12,3 +13,4 @@ const [rootJ, descendantsJ, leavesJ] = JsonToHierarchy(jsonData);
 
 drawCirclePack(root);
 drawTree(root);
+createLegend();
