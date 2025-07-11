@@ -49,4 +49,19 @@ export const drawCirclePack = root => {
       }
     }))
     .attr("stroke", d => d.depth > 0 ? "none" : "gray");
+
+  // Add labels with regular html divs if circles are large enough
+  const minRadius = 22;
+  svg.selectAll(".leaf-label-container")
+    .data(leaves.filter(l => l.r >= minRadius))
+    .join("foreignObject")
+    .attr("class", "leaf-label-container")
+    .attr("width", d => 2 * d.r)
+    .attr("height", 40)
+    .attr("x", d => d.x - d.r)
+    .attr("y", d => d.y - 20)
+    .append("xhtml:div")
+    .attr("class", "leaf-label")
+    .text(d => d.id);
+
 }
