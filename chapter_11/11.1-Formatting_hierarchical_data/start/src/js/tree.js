@@ -45,7 +45,7 @@ export const drawTree = root => {
     .attr("class", "tree-link")
     .attr("d", d => linkGenerator(d))
     .attr("fill", "none")
-    .attr("stroke", d => getColor(d.source) ?? "gray")
+    .attr("stroke", d => getColor(d.target) ?? "gray")
     .attr("stroke-width", 2)
 
     .attr("stroke-opacity", 0.6);
@@ -63,4 +63,22 @@ export const drawTree = root => {
     .attr("fill-opacity", d => d.depth === 3 ? 0.3 : 1)
     .attr("stroke", d => d.depth === 3 ? "none" : getColor(d) ?? "gray")
     .attr("stroke-width", 2)
+
+
+  // Append a label for each node
+  svg.selectAll(".label-tree")
+    .data(root)
+    .join("text")
+    .attr("class", "label-tree")
+    .attr("x", d => d.children ? d.y - 8 : d.y + 8)
+    .attr("y", d => d.x)
+    .attr("text-anchor", d => d.children ? "end" : "start")
+    .attr("dominant-baseline", "middle")
+    .attr("paint-order", "stroke")
+    .attr("stroke", d => d.depth === 3 ? "none" : "white")
+    .attr("stroke-width", 2)
+    .style("font-size", "16px")
+    .text(d => d.id)
+
+
 }
