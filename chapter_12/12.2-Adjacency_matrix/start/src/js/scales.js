@@ -12,3 +12,7 @@ export const getRadius = (maxLines, lines) => {
 export const colorScale = scaleOrdinal()
   .domain(houses.map(h => h.house))
   .range(houses.map(h => h.color));
+
+export const opacityScale = (maxScenes) => scaleLinear()
+  .domain([0, maxScenes])
+  .range([0.3, 1.0])
