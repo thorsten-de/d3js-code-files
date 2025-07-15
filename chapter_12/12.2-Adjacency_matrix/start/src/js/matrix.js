@@ -1,9 +1,10 @@
-import { sort, max } from "d3-array";
+import { sort, max, range } from "d3-array";
 import { select, selectAll } from "d3-selection";
 import { opacityScale, opacityScale } from "./scales";
+import { transition } from "d3-transition";
 
 export const drawMatrix = (nodes, edges) => {
-  sort(nodes, d => d.totalLinesNumber)
+  nodes = sort(nodes, d => -d.totalLinesNumber)
 
   const edgeHash = edges.reduce((acc, edge) => {
     acc[`${edge.source}->${edge.target}`] = {
@@ -84,5 +85,55 @@ export const drawMatrix = (nodes, edges) => {
     .attr("class", "label-top")
     .attr("transform", (d, i) => `translate(${i * (squareWidth + padding) + squareWidth / 2}, -8) rotate(-90)`)
     .text(d => d.name)
+
+  const weights = range(1, maxScenes + 1);
+  const legend = select(".matrix-legend")
+    .append("ul")
+    .selectAll(".legend-color-item")
+    .data(weights)
+    .join("li")
+    .attr("class", "legend-color-item");
+
+  legend.append("div")
+    .attr("class", "legend-color-square")
+    .style("opacity", d => {
+      return sceneScale(d);
+    })
+    .style("background-color", "#364652")
+
+  legend.append("div")
+    .attr("class", "legend-color-label")
+    .text(d => d)
+
+
+  selectAll(".grid-square")
+    .on("mouseenter", (e, d) => {
+      const t = transition()
+        .duration(150);
+
+      selectAll(".label-left")
+        .transition(t)
+        .style("opacity", label => label.id === d.target ? 1 : 0.1);
+
+      selectAll(".label-top")
+        .transition(t)
+        .style("opacity", label => label.id === d.source ? 1 : 0.1);
+
+      const charA = nodes.find(char => char.id === d.target).name;
+      const charB = nodes.find(char => char.id === d.source).name;
+
+      select(".matrix-tooltip-charA").text(charA);
+      select(".matrix-tooltip-charB").text(charB)
+      select(".matrix-tooltip-scenes").text(d.weight)
+      select(".matrix-tooltip").classed("hidden", false)
+
+    })
+
+    .on("mouseleave", (e, d) => {
+      selectAll(".label-top, .label-left")
+        .style("opacity", 1)
+
+      select(".matrix-tooltip").classed("hidden", true)
+    })
 
 };

@@ -67,6 +67,12 @@
   height: 18px;
   border-radius: 50%;
 }
+
+.matrix-legend .legend-color-square {
+  width: 18px;
+  height: 18px;
+}
+
 .matrix-legend .legend-color-label {
   margin-top: 3px;
   font-size: 1.6rem;
