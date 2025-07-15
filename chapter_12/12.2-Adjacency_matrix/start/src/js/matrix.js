@@ -19,7 +19,7 @@ export const drawMatrix = (nodes, edges) => {
     return acc;
   }, {});
 
-  const margin = { top: 100, right: 0, bottom: 0, left: 100 }
+  const margin = { top: 130, right: 0, bottom: 0, left: 130 }
   const squareWidth = 16;
   const padding = 2;
   const size = nodes.length * (squareWidth + padding);
@@ -66,28 +66,23 @@ export const drawMatrix = (nodes, edges) => {
     .attr("fill", "#364652")
     .attr("opacity", d => sceneScale(d.weight))
 
-  svg.selectAll(".character-label")
+  const labelsContainer = svg.selectAll(".matrix-label")
     .data(nodes)
-    .join("text")
-    .attr("class", d => `matrix-label label-${d.id}`)
-    .attr("y", (d, i) => (i + 0.5) * (squareWidth + padding))
-    .attr("x", -5)
+    .join("g")
+    .attr("class", "matrix-label")
     .attr("dominant-baseline", "middle")
+    .style("font-size", "13px")
+
+  labelsContainer.append("text")
+    .attr("class", "label-left")
+    .attr("y", (d, i) => i * (squareWidth + padding) + squareWidth / 2)
+    .attr("x", -8)
     .attr("text-anchor", "end")
-    .style("font-size", "12px")
     .text(d => d.name)
 
-
-  svg.selectAll(".character-label")
-    .data(nodes)
-    .join("text")
-    .attr("class", d => `matrix-label label-${d.id}`)
-    .attr("transform", "rotate(-90)")
-    .attr("y", (d, i) => (i + 0.5) * (squareWidth + padding))
-    .attr("x", 5)
-    .attr("dominant-baseline", "middle")
-    .attr("text-anchor", "start")
-    .style("font-size", "12px")
+  labelsContainer.append("text")
+    .attr("class", "label-top")
+    .attr("transform", (d, i) => `translate(${i * (squareWidth + padding) + squareWidth / 2}, -8) rotate(-90)`)
     .text(d => d.name)
 
 };
