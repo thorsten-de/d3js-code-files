@@ -4,6 +4,7 @@ import { select, selectAll } from "d3-selection";
 import { colorScale, getRadius } from "./scales";
 import { max } from "d3-array";
 import { curveCardinal, line } from "d3-shape";
+import { transition } from "d3-transition";
 
 const deepClone = obj =>
   JSON.parse(JSON.stringify(obj));
@@ -66,7 +67,7 @@ export const drawArcDiagram = (nodes, edges) => {
     .attr("d", d => getArc(d))
     .attr("fill", "none")
     .attr("stroke", "#364652")
-    .attr("stroke-width", d => d.width)
+    .attr("stroke-width", d => d.weight)
     .attr("stroke-opacity", 0.1)
     .attr("stroke-linecap", "round")
 
@@ -92,5 +93,48 @@ export const drawArcDiagram = (nodes, edges) => {
     .attr("transform", d => `translate(${d.x}, 70), rotate(-70)`)
     .text(d => d.name)
     .style("font-size", "14px")
+
+
+
+  selectAll(".arc-node")
+    .on("mouseenter", (e, d) => {
+      const t = transition()
+        .duration(150);
+      const isLinked = char => {
+        return arcEdges.find(edge =>
+          (edge.source.id === d.id && edge.target.id === char.id) ||
+          (edge.source.id === char.id && edge.target.id === d.id)
+        ) ? true : false
+      }
+
+      selectAll(".arc-link")
+        .transition(t)
+        .attr("stroke-opacity", link =>
+          link.source.id === d.id || link.target.id === d.id ? 0.1 : 0
+        )
+
+      selectAll(".arc-node")
+        .transition(t)
+        .attr("fill-opacity", char => char.id === d.id || isLinked(char) ? 1 : 0)
+        .attr("stroke-opacity", char => char.id === d.id || isLinked(char) ? 1 : 0)
+
+      selectAll(".arc-label")
+        .transition(t)
+        .attr("opacity", char => char.id === d.id || isLinked(char) ? 1 : 0)
+        .style("font-weight", char => char.id === d.id ? 700 : 400)
+    })
+
+    .on("mouseleave", (e, d) => {
+      selectAll(".arc-link")
+        .attr("stroke-opacity", 0.1);
+
+      selectAll(".arc-node")
+        .attr("fill-opacity", 1)
+        .attr("stroke-opacity", 1)
+
+      selectAll(".arc-label")
+        .attr("opacity", 1)
+        .style("font-weight", 400)
+    })
 
 };
