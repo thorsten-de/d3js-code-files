@@ -63,6 +63,14 @@ export const drawNetwork = (nodes, edges) => {
     .force("link", forceLink()
       .id(d => d.id)
       .strength(d => d.weight / 10))
+    .force("bounding", () => {
+      nodes.forEach(node => {
+        if (node.x < -width / 2 + node.radius) node.vx = 5;
+        if (node.y < -height / 2 + node.radius) node.vy = 5;
+        if (node.x > width / 2 - node.radius) node.vx = -5;
+        if (node.y > height / 2 - node.radius) node.vy = -5;
+      })
+    })
     .nodes(nodes)
     .on("tick", updateNetwork);
 
