@@ -1,6 +1,7 @@
 import { select, selectAll } from "d3-selection";
-import { colorScale } from "./scales";
-import { forceSimulation } from "d3-force";
+import { colorScale, getRadius } from "./scales";
+import { forceCenter, forceCollide, forceManyBody, forceSimulation, forceX, forceY } from "d3-force";
+import { max, sort } from "d3-array";
 
 export const drawBeeswarm = (nodesOrig) => {
 
@@ -10,6 +11,7 @@ export const drawBeeswarm = (nodesOrig) => {
 
   const nodes = JSON.parse(JSON.stringify(nodesOrig))
 
+  const maxLines = max(nodes, d => d.totalLinesNumber)
 
   const svg = select("#beeswarm")
     .append("svg")
@@ -21,8 +23,12 @@ export const drawBeeswarm = (nodesOrig) => {
     .data(nodes)
     .join("circle")
     .attr("class", "beeswarm-circle")
-    .attr("r", 8)
-    .attr("fill", d => colorScale(d))
+    .attr("r", d => {
+      d.radius = getRadius(maxLines, d.totalLinesNumber)
+      return d.radius
+    }
+    )
+    .attr("fill", d => colorScale(d.house))
     .attr("stroke", "#FAFBFF")
     .attr("stroke-width", 1)
 
@@ -34,5 +40,15 @@ export const drawBeeswarm = (nodesOrig) => {
 
   const simulation = forceSimulation()
     .nodes(nodes)
+    //.force("x", forceX(0).strength(0.01))
+    //.force("y", forceY(0).strength(0.01))
+    //.force("y", forceY(d => d.totalLinesNumber))
+    //   .force("x", forceX(0))
+    .force("y", forceY(0))
+    .force("collide", forceCollide().radius(d => d.radius + 2))
+    //.force("center", forceCenter().x(-10).y(5))
+    //    .force("charge", forceManyBody().strength(-4))
+
+
     .on("tick", updateNetwork);
 };
