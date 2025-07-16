@@ -20,4 +20,4 @@ drawArcDiagram(nodes, edges);
 drawBeeswarm(nodes);
 
 // Draw the network
-// drawNetwork(nodes, edges);
+drawNetwork(nodes, edges);
