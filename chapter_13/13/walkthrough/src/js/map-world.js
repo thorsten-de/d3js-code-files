@@ -9,7 +9,10 @@ export const drawWorldMap = (laureates, world) => {
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
 
-  const projection = geoEqualEarth();
+  const projection = geoEqualEarth()
+    .translate([width / 2, height / 2])
+    .scale(220)
+
   const geoPathGenerator = geoPath()
     .projection(projection);
 
