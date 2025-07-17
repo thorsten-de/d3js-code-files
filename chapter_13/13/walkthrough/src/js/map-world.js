@@ -1,4 +1,4 @@
-import { geoEqualEarth, geoPath } from "d3-geo";
+import { geoEqualEarth, geoGraticule, geoPath } from "d3-geo";
 import { select } from "d3-selection";
 
 export const drawWorldMap = (laureates, world) => {
@@ -15,6 +15,21 @@ export const drawWorldMap = (laureates, world) => {
 
   const geoPathGenerator = geoPath()
     .projection(projection);
+
+  const graticuleGenerator = geoGraticule();
+
+  const graticules = svg.append("g")
+    .attr("fill", "transparent")
+    .attr("stroke", "#09131b")
+    .attr("stroke-opacity", 0.2)
+
+  graticules.append("path")
+    .datum(graticuleGenerator)
+    .attr("d", geoPathGenerator)
+
+  graticules.append("path")
+    .datum(graticuleGenerator.outline)
+    .attr("d", geoPathGenerator)
 
 
   svg.selectAll(".country-path")
