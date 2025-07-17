@@ -1,6 +1,23 @@
 import { geoEqualEarth, geoGraticule, geoPath } from "d3-geo";
 import { select } from "d3-selection";
 import { countryColorScale } from "./scales";
+import { transition } from "d3-transition";
+
+const showTooltip = (e, { properties: p }) => {
+  const lastWord = p.laureates.length > 1 ? "laureates" : "laureate"
+  const text = `${p.name}, ${p.laureates.length} ${lastWord}`;
+
+  select("#map-tooltip")
+    .text(text)
+    .transition()
+    .style("opacity", 1);
+}
+
+const hideTooltip = () => {
+  select("#map-tooltip")
+    .transition()
+    .style("opacity", 0)
+}
 
 export const drawWorldMap = (laureates, world) => {
   const width = 1230;
@@ -47,6 +64,6 @@ export const drawWorldMap = (laureates, world) => {
       ? countryColorScale(count) : "#f8fcff")
     .attr("stroke", "#09131b")
     .attr("stroke-opacity", 0.4)
-
-
+    .on("mouseenter", showTooltip)
+    .on("mouseleave", hideTooltip)
 };
