@@ -1,9 +1,15 @@
 import { geoEqualEarth, geoGraticule, geoPath } from "d3-geo";
 import { select } from "d3-selection";
+import { countryColorScale } from "./scales";
 
 export const drawWorldMap = (laureates, world) => {
   const width = 1230;
   const height = 620;
+
+  world.features.forEach(country => {
+    const props = country.properties;
+    props.laureates = laureates.filter(l => l.birth_country === props.name)
+  })
 
   const svg = select("#map")
     .append("svg")
@@ -37,7 +43,8 @@ export const drawWorldMap = (laureates, world) => {
     .join("path")
     .attr("class", "country-path")
     .attr("d", geoPathGenerator)
-    .attr("fill", "#f8fcff")
+    .attr("fill", d => (count = d.properties.laureates.length) > 0
+      ? countryColorScale(count) : "#f8fcff")
     .attr("stroke", "#09131b")
     .attr("stroke-opacity", 0.4)
 
