@@ -18,7 +18,7 @@ export const drawWorldMap = (laureates, world) => {
     if (laureate.birth_country !== "" && laureate.birth_city !== "") {
 
       const relatedCity = cities.find(city => city.city === laureate.birth_city) && cities.find(city => city.country === laureate.birth_country);
-      
+
       if (relatedCity) {
         relatedCity.laureates.push(laureate);
       } else {
@@ -34,6 +34,7 @@ export const drawWorldMap = (laureates, world) => {
     }
   });
 
+  console.log({ cities })
   // Dimensions
   const width = 1230;
   const height = 620;
@@ -44,11 +45,11 @@ export const drawWorldMap = (laureates, world) => {
   // Append the SVG container
   const svg = select("#map")
     .append("svg")
-      .attr("viewBox", `0 0 ${width} ${height}`);
+    .attr("viewBox", `0 0 ${width} ${height}`);
 
   // Define the map projection
   const projection = geoEqualEarth()
-    .translate([width/2, height/2])
+    .translate([width / 2, height / 2])
     .scale(220);
 
   // Initialize the path generator
@@ -61,20 +62,20 @@ export const drawWorldMap = (laureates, world) => {
   // Append the graticules
   const graticules = svg
     .append("g")
-      .attr("fill", "transparent")
-      .attr("stroke", "#09131b")
-      .attr("stroke-opacity", 0.2);
+    .attr("fill", "transparent")
+    .attr("stroke", "#09131b")
+    .attr("stroke-opacity", 0.2);
   graticules
     .append("path")
     .datum(graticuleGenerator)
-      .attr("d", geoPathGenerator);
+    .attr("d", geoPathGenerator);
   graticules
     .append("path")
     .datum(graticuleGenerator.outline)
-      .attr("d", geoPathGenerator);
+    .attr("d", geoPathGenerator);
 
   // Handle the tooltip
-  const showTooltip = (text) => {
+  const showTooltip = (text) => {
     select("#map-tooltip")
       .text(text)
       .transition()
@@ -92,12 +93,12 @@ export const drawWorldMap = (laureates, world) => {
     .selectAll(".country-path")
     .data(world.features)
     .join("path")
-      .attr("class", "country-path")
-      .attr("d", geoPathGenerator)
-      .attr("stroke", "#09131b")
-      .attr("stroke-opacity", 0.4);
+    .attr("class", "country-path")
+    .attr("d", geoPathGenerator)
+    .attr("stroke", "#09131b")
+    .attr("stroke-opacity", 0.4);
 
-  const updateCountryFills = () => {
+  const updateCountryFills = () => {
     selectAll(".country-path")
       .on("mouseenter", (e, d) => {
         const p = d.properties;
@@ -107,13 +108,13 @@ export const drawWorldMap = (laureates, world) => {
       })
       .on("mouseleave", hideTooltip)
       .transition()
-      .attr("fill", d => d.properties.laureates.length > 0 
-        ? countryColorScale(d.properties.laureates.length) 
+      .attr("fill", d => d.properties.laureates.length > 0
+        ? countryColorScale(d.properties.laureates.length)
         : "#f8fcff");
   };
 
   const maxLaureatesPerCity = max(cities, d => d.laureates.length);
-  const updateCityCircles = () => {
+  const updateCityCircles = () => {
     // const selectedData = JSON.parse(JSON.stringify(cities));
     // selectedData.forEach(city => {
     //   city.laureates = city.laureates.filter(l => l.year >= brushMin && l.year <= brushMax);
@@ -131,7 +132,7 @@ export const drawWorldMap = (laureates, world) => {
       .attr("r", d => getCityRadius(d.laureates.length, maxLaureatesPerCity));
   };
 
-  const displayCountries = () => {
+  const displayCountries = () => {
     isCountryMap = true;
 
     // Remove city circles
@@ -149,7 +150,7 @@ export const drawWorldMap = (laureates, world) => {
     select(".legend-countries")
       .style("display", "flex");
   };
-  
+
   const displayCities = () => {
 
     isCountryMap = false;
@@ -166,12 +167,12 @@ export const drawWorldMap = (laureates, world) => {
       .selectAll(".circle-city")
       .data(cities)
       .join("circle")
-        .attr("class", "circle-city")
-        .attr("cx", d => projection([d.longitude, d.latitude])[0])
-        .attr("cy", d => projection([d.longitude, d.latitude])[1])
-        .attr("fill", "#35a7c2")
-        .attr("fill-opacity", 0.5)
-        .attr("stroke", "#35a7c2");
+      .attr("class", "circle-city")
+      .attr("cx", d => projection([d.longitude, d.latitude])[0])
+      .attr("cy", d => projection([d.longitude, d.latitude])[1])
+      .attr("fill", "#35a7c2")
+      .attr("fill-opacity", 0.5)
+      .attr("stroke", "#35a7c2");
 
     updateCityCircles();
 
@@ -180,11 +181,11 @@ export const drawWorldMap = (laureates, world) => {
       .style("display", "none");
     select(".legend-cities")
       .style("display", "block");
-    
+
   };
 
   drawLegend(maxLaureatesPerCity);
-  
+
   // Listen to radio buttons selection 
   selectAll("input#countries, input#cities")
     .on("click", e => {
