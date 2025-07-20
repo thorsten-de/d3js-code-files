@@ -4,6 +4,7 @@ import { countryColorScale, getCityRadius as createCityRadiusScale } from "./sca
 import { transition } from "d3-transition";
 import { max } from "d3-array";
 import { drawLegend } from "./legend"
+import { zoom } from "d3-zoom";
 
 const showTooltip = (name, laureates) => {
   const lastWord = laureates.length > 1 ? "laureates" : "laureate"
@@ -175,4 +176,15 @@ export const drawWorldMap = (laureates, world) => {
 
   displayCountries();
   drawLegend(maxLaureatesPerCity);
+
+  // Add zoom behaviour
+  const zoomHandler = zoom()
+    .on("zoom", e => {
+      console.log(e);
+      svg.attr("transform", e.transform)
+
+    })
+
+  select(".map-container")
+    .call(zoomHandler);
 };
