@@ -2,9 +2,12 @@ import { geoEqualEarth, geoGraticule, geoPath } from "d3-geo";
 import { select, selectAll } from "d3-selection";
 import { countryColorScale, getCityRadius as createCityRadiusScale } from "./scales";
 import { transition } from "d3-transition";
-import { max } from "d3-array";
+import { extent, max } from "d3-array";
+import { scaleLinear } from "d3-scale";
 import { drawLegend } from "./legend"
 import { zoom, zoomIdentity } from "d3-zoom";
+import { axisBottom } from "d3-axis";
+import { format } from "d3-format";
 
 const showTooltip = (name, laureates) => {
   const lastWord = laureates.length > 1 ? "laureates" : "laureate"
@@ -206,4 +209,29 @@ export const drawWorldMap = (laureates, world) => {
         .call(zoomHandler.transform, zoomIdentity)
     })
 
+
+  const tlWidth = 1000;
+  const tlHeight = 80;
+  const tlMargin = { top: 0, right: 10, bottom: 0, left: 0 }
+  const tlinnerWidth = tlWidth - tlMargin.left - tlMargin.right;
+
+  const dateRange = extent(laureates, d => d.year);
+  const xScale = scaleLinear()
+    .domain(dateRange)
+    .range([0, tlinnerWidth]);
+
+  const yearsSelector = select("#years-selector")
+    .append("svg")
+    .attr("viewBox", `0 0 ${tlWidth} ${tlHeight}`);
+
+  const xAxisGenerator = axisBottom(xScale)
+    .tickFormat(format(""))
+    .tickSizeOuter(0)
+
+  yearsSelector.append("g")
+    .attr("class", "axis-x")
+    .attr("transform", `translate(0,30)`)
+    .call(xAxisGenerator)
+
 };
+
