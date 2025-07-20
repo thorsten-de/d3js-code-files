@@ -179,6 +179,8 @@ export const drawWorldMap = (laureates, world) => {
 
   // Add zoom behaviour
   const zoomHandler = zoom()
+    .scaleExtent([1, 5])
+    .translateExtent([[-width / 2, -height / 2], [3 * width / 2, 3 * height / 2]])
     .on("zoom", e => {
       console.log(e);
       svg.attr("transform", e.transform)
