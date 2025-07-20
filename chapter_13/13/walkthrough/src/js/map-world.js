@@ -4,7 +4,7 @@ import { countryColorScale, getCityRadius as createCityRadiusScale } from "./sca
 import { transition } from "d3-transition";
 import { max } from "d3-array";
 import { drawLegend } from "./legend"
-import { zoom } from "d3-zoom";
+import { zoom, zoomIdentity } from "d3-zoom";
 
 const showTooltip = (name, laureates) => {
   const lastWord = laureates.length > 1 ? "laureates" : "laureate"
@@ -185,8 +185,25 @@ export const drawWorldMap = (laureates, world) => {
       console.log(e);
       svg.attr("transform", e.transform)
 
+      select("#map-reset.hidden")
+        .classed("hidden", false)
+
+      if (e.transform.k === 1 && e.transform.x === 0 && e.transform.y === 0) {
+        select("#map-reset")
+          .classed("hidden", true);
+      }
+
     })
 
   select(".map-container")
     .call(zoomHandler);
+
+  select("#map-reset")
+    .classed("hidden", true)
+    .on("click", () => {
+      select(".map-container")
+        .transition()
+        .call(zoomHandler.transform, zoomIdentity)
+    })
+
 };
