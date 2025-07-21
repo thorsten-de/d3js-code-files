@@ -2,12 +2,16 @@ import { geoEqualEarth, geoGraticule, geoPath } from "d3-geo";
 import { select, selectAll } from "d3-selection";
 import { countryColorScale, getCityRadius as createCityRadiusScale } from "./scales";
 import { transition } from "d3-transition";
-import { extent, max } from "d3-array";
+import { extent, filter, max } from "d3-array";
 import { scaleLinear } from "d3-scale";
 import { drawLegend } from "./legend"
 import { zoom, zoomIdentity } from "d3-zoom";
 import { axisBottom } from "d3-axis";
 import { format } from "d3-format";
+import { brush, brushX } from "d3-brush";
+
+
+const deepClone = obj => JSON.parse(JSON.stringify(obj));
 
 const showTooltip = (name, laureates) => {
   const lastWord = laureates.length > 1 ? "laureates" : "laureate"
@@ -50,9 +54,6 @@ export const drawWorldMap = (laureates, world) => {
         city.city === l.birth_city &&
         city.country === l.birth_country);
 
-
-
-
       if (relatedCity) {
         if (relatedCity.city !== l.birth_city || relatedCity.country !== l.birth_country)
           console.log({ relatedCity, l })
@@ -71,7 +72,9 @@ export const drawWorldMap = (laureates, world) => {
       }
     }
   });
-  console.log({ cities })
+
+  const dateRange = extent(laureates, d => d.year);
+  let brushRange = dateRange;
 
   const maxLaureatesPerCity = max(cities, c => c.laureates.length)
   const cityScale = createCityRadiusScale(maxLaureatesPerCity);
@@ -107,10 +110,19 @@ export const drawWorldMap = (laureates, world) => {
     .attr("stroke", "#09131b")
     .attr("stroke-opacity", 0.4)
 
+  const filterLaureates = ({ laureates }) =>
+    laureates.filter(l => l.year >= brushRange[0] && l.year <= brushRange[1])
 
   let isCountryMap = true;
   const updateCountryFills = () => {
+    const selectedData = deepClone(world.features);
+    selectedData.forEach(d => {
+      d.properties.laureates = filterLaureates(d.properties)
+    })
+
+
     svg.selectAll(".country-path")
+      .data(selectedData)
       .on("mouseenter", showCountryTooltip)
       .on("mouseleave", hideTooltip)
       .transition()
@@ -160,7 +172,12 @@ export const drawWorldMap = (laureates, world) => {
   }
 
   const updateCityCircles = () => {
+    const selectedData = deepClone(cities)
+    selectedData.forEach(d => {
+      d.laureates = filterLaureates(d);
+    })
     selectAll(".circle-city")
+      .data(selectedData)
       .on("mouseenter", showCityTooltip)
       .on("mouseleave", hideTooltip)
       .transition()
@@ -215,7 +232,7 @@ export const drawWorldMap = (laureates, world) => {
   const tlMargin = { top: 0, right: 10, bottom: 0, left: 0 }
   const tlinnerWidth = tlWidth - tlMargin.left - tlMargin.right;
 
-  const dateRange = extent(laureates, d => d.year);
+
   const xScale = scaleLinear()
     .domain(dateRange)
     .range([0, tlinnerWidth]);
@@ -232,6 +249,27 @@ export const drawWorldMap = (laureates, world) => {
     .attr("class", "axis-x")
     .attr("transform", `translate(0,30)`)
     .call(xAxisGenerator)
+
+  const handleBrush = e => {
+
+    brushRange = e.selection.map(d => Math.round(xScale.invert(d)))
+
+    if (isCountryMap) {
+      updateCountryFills();
+    } else {
+      updateCityCircles();
+    }
+  };
+
+  const brushHandler = brushX()
+    .extent([[0, 0], [tlinnerWidth, tlHeight]])
+    .on("brush", handleBrush);
+
+
+
+  yearsSelector
+    .call(brushHandler)
+    .call(brushHandler.move, dateRange.map(xScale))
 
 };
 
