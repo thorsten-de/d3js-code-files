@@ -1,8 +1,9 @@
 <script>
   import { radiansToDegrees } from "../utils/helpers";
-  import { scalePoint } from "d3-scale";
+  import { scaleLinear, scalePoint } from "d3-scale";
   import { months } from "../utils/months";
   import Paintings from "../chart_components/Paintings.svelte";
+  import Drawings from "../chart_components/Drawings.svelte";
 
   export let tileWidth;
   export let tileHeight;
@@ -10,6 +11,8 @@
   export let paintings;
   export let paintingDefaultRadius;
   export let paintingAreaScale;
+  export let maxDrawings;
+  export let drawings;
 
   const padding = 60;
   $: radius = (tileWidth - 2 * padding) / 2;
@@ -23,6 +26,10 @@
     if (angle <= 90 || angle >= 270) return angle;
     else return angle - 180;
   };
+
+  $: radialScale = scaleLinear()
+    .domain([0, maxDrawings])
+    .range([0, 2 * radius]);
 </script>
 
 <g transform="translate({tileWidth / 2}, {tileHeight / 2})">
@@ -50,6 +57,7 @@
     </g>
   {/each}
   <Paintings {paintingAreaScale} {paintingDefaultRadius} {paintings} {monthScale} {radius} />
+  <Drawings {drawings} {monthScale} {radialScale} />
   <text x={0} y={tileHeight / 2 - 5} text-anchor="middle">{year}</text>
 </g>
 

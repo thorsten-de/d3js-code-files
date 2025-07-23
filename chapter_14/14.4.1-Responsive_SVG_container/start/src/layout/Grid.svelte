@@ -1,7 +1,10 @@
 <script>
   import { range, max } from "d3-array";
-  import { scaleLinear, scaleRadial } from "d3-scale";
+  import { scaleRadial } from "d3-scale";
   import paintings from "../data/paintings.json";
+  import drawings from "../data/drawings.json";
+  import { months } from "../utils/months";
+
   import GridItem from "./GridItem.svelte";
 
   let windowWidth;
@@ -21,6 +24,21 @@
   }
 
   const years = range(1881, 1891);
+  var yearlydrawings = years.map((year) => {
+    return {
+      year,
+      months: months.map((month) => {
+        return {
+          month,
+          drawings: drawings.filter((d) => d.year === year.toString() && d.month === month),
+        };
+      }),
+    };
+  });
+
+  const maxDrawings = max(yearlydrawings, (d) => max(d.months, (i) => i.drawings.length));
+  console.log({ maxDrawings, yearlydrawings });
+
   let numColumns;
   $: switch (true) {
     case windowWidth > 900:
@@ -70,6 +88,8 @@
           {paintingAreaScale}
           {paintingDefaultRadius}
           paintings={paintings.filter((p) => p.year === year)}
+          {maxDrawings}
+          drawings={yearlydrawings.find((d) => d.year === year).months}
         />
       </g>
     {/each}
