@@ -1,8 +1,9 @@
 <script>
-  import { range, max } from "d3-array";
-  import { scaleRadial } from "d3-scale";
+  import { range, max, group } from "d3-array";
+  import { scaleLinear, scaleRadial } from "d3-scale";
   import paintings from "../data/paintings.json";
   import drawings from "../data/drawings.json";
+  import letters from "../data/letters.json";
   import { months } from "../utils/months";
 
   import GridItem from "./GridItem.svelte";
@@ -68,6 +69,9 @@
   const paintingAreaScale = scaleRadial()
     .domain([0, maxPaintingArea])
     .range([0, maxPaintingRadius]);
+
+  const maxLetters = max(letters, (d) => d.number_of_letters);
+  const lettersByYear = group(letters, (d) => d.year);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -89,6 +93,8 @@
           paintings={paintings.filter((p) => p.year === year)}
           {maxDrawings}
           drawings={yearlydrawings.find((d) => d.year === year).months}
+          {maxLetters}
+          letters={lettersByYear.get(year)}
         />
       </g>
     {/each}

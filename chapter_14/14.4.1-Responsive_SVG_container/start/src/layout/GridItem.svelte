@@ -4,6 +4,7 @@
   import { months } from "../utils/months";
   import Paintings from "../chart_components/Paintings.svelte";
   import Drawings from "../chart_components/Drawings.svelte";
+  import Letters from "../chart_components/Letters.svelte";
 
   export let tileWidth;
   export let tileHeight;
@@ -13,6 +14,8 @@
   export let paintingAreaScale;
   export let maxDrawings;
   export let drawings;
+  export let maxLetters;
+  export let letters;
 
   const padding = 60;
   $: radius = (tileWidth - 2 * padding) / 2;
@@ -30,6 +33,8 @@
   $: radialScale = scaleLinear()
     .domain([0, maxDrawings])
     .range([0, 2 * radius]);
+
+  $: letterScale = scaleLinear().domain([0, maxLetters]).range([0, radius]);
 </script>
 
 <g transform="translate({tileWidth / 2}, {tileHeight / 2})">
@@ -58,6 +63,7 @@
   {/each}
   <Paintings {paintingAreaScale} {paintingDefaultRadius} {paintings} {monthScale} {radius} />
   <Drawings {drawings} {monthScale} {radialScale} />
+  <Letters {letters} {monthScale} {letterScale} />
   <text x={0} y={tileHeight / 2 - 5} text-anchor="middle">{year}</text>
 </g>
 
