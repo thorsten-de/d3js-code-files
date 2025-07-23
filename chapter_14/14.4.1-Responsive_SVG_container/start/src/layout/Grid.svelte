@@ -83,7 +83,6 @@
           {(i % numColumns) * tileWidth}, 
           {Math.floor(i / numColumns) * tileHeight})"
       >
-        <rect x={0} y={0} width={tileWidth} height={tileHeight} />
         <GridItem
           {tileWidth}
           {tileHeight}
@@ -103,7 +102,6 @@
 
 <style>
   svg {
-    border: 1px solid magenta;
   }
   rect {
     fill: none;

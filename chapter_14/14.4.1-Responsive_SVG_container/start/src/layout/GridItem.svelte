@@ -38,7 +38,6 @@
 </script>
 
 <g transform="translate({tileWidth / 2}, {tileHeight / 2})">
-  <circle cx={0} cy={0} r={radius} />
   {#each months as month}
     {monthScale(month)}
     <line
