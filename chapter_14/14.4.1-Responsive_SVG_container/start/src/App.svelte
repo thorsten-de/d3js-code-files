@@ -20,16 +20,15 @@
         <div class="col-0 col-md-2">
           <h3>Timeline</h3>
           <div class="instruction">
-            Click on a period to highlight the related work. Click again to
-            unselect it.
+            Click on a period to highlight the related work. Click again to unselect it.
           </div>
         </div>
         <div class="col-0 col-md-6">
-          <h3>Visualizations</h3>
+          <h3 id="viz">Visualizations</h3>
           <div class="instruction">
-            Pass your mouse over a visualization to see the number of paintings
-            (p), drawings (d), and letters (l) for each month. Position your
-            mouse over a circle to read details about the related painting.
+            Pass your mouse over a visualization to see the number of paintings (p), drawings (d),
+            and letters (l) for each month. Position your mouse over a circle to read details about
+            the related painting.
           </div>
         </div>
       </div>
