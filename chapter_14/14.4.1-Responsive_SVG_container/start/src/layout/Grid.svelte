@@ -1,5 +1,6 @@
 <script>
   import { range } from "d3-array";
+  import GridItem from "./GridItem.svelte";
 
   let windowWidth;
   const padding = 30;
@@ -47,6 +48,7 @@
           {Math.floor(i / numColumns) * tileHeight})"
       >
         <rect x={0} y={0} width={tileWidth} height={tileHeight} />
+        <GridItem {tileWidth} {tileHeight} {year} />
       </g>
     {/each}
   </svg>
