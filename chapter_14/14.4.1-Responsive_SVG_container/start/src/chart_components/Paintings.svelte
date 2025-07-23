@@ -1,11 +1,17 @@
 <script>
   import { forceCollide, forceSimulation, forceX, forceY } from "d3-force";
+  import { scaleOrdinal } from "d3-scale";
+  import { subjects } from "../utils/subjects";
 
   export let paintingAreaScale;
   export let paintingDefaultRadius;
   export let paintings;
   export let monthScale;
   export let radius;
+
+  const colorScale = scaleOrdinal()
+    .domain(subjects.map((d) => d.subject))
+    .range(subjects.map((d) => d.color));
 
   let simulation = forceSimulation(paintings);
   let nodes = [];
@@ -42,5 +48,6 @@
     cx={node.x}
     cy={node.y}
     r={node.area_cm2 ? paintingAreaScale(node.area_cm2) : paintingDefaultRadius}
+    fill={colorScale(node.subject)}
   />
 {/each}
