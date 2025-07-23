@@ -2,10 +2,14 @@
   import { radiansToDegrees } from "../utils/helpers";
   import { scalePoint } from "d3-scale";
   import { months } from "../utils/months";
+  import Paintings from "../chart_components/Paintings.svelte";
 
   export let tileWidth;
   export let tileHeight;
   export let year;
+  export let paintings;
+  export let paintingDefaultRadius;
+  export let paintingAreaScale;
 
   const padding = 60;
   $: radius = (tileWidth - 2 * padding) / 2;
@@ -40,6 +44,7 @@
       )
         rotate({textRotation(month)})"
     >
+      <Paintings {paintingAreaScale} {paintingDefaultRadius} {paintings} {monthScale} {radius} />
       <text text-anchor="middle" dominant-baseline="middle">
         {month.slice(0, 3)}
       </text>

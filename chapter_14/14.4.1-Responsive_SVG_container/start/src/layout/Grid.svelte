@@ -1,5 +1,7 @@
 <script>
-  import { range } from "d3-array";
+  import { range, max } from "d3-array";
+  import { scaleLinear } from "d3-scale";
+  import paintings from "../data/paintings.json";
   import GridItem from "./GridItem.svelte";
 
   let windowWidth;
@@ -36,6 +38,19 @@
   $: tileWidth = svgWidth / numColumns;
   $: tileHeight = tileWidth + 40;
   $: svgHeight = numRows * tileHeight;
+
+  // Prepare paintings
+  paintings.forEach((painting) => {
+    if (painting.width_cm && painting.height_cm) {
+      painting["area_cm2"] = painting.width_cm * painting.height_cm;
+    }
+  });
+  const maxPaintingArea = max(paintings, (p) => p.area_cm2);
+  const maxPaintingRadius = 8;
+  const paintingDefaultRadius = 3;
+  const paintingAreaScale = scaleLinear()
+    .domain([0, maxPaintingArea])
+    .range([0, Math.PI * maxPaintingRadius * maxPaintingRadius]);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -48,7 +63,14 @@
           {Math.floor(i / numColumns) * tileHeight})"
       >
         <rect x={0} y={0} width={tileWidth} height={tileHeight} />
-        <GridItem {tileWidth} {tileHeight} {year} />
+        <GridItem
+          {tileWidth}
+          {tileHeight}
+          {year}
+          {paintingAreaScale}
+          {paintingDefaultRadius}
+          paintings={paintings.filter((p) => p.year === year)}
+        />
       </g>
     {/each}
   </svg>
