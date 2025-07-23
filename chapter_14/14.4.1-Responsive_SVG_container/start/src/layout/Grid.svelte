@@ -37,7 +37,6 @@
   });
 
   const maxDrawings = max(yearlydrawings, (d) => max(d.months, (i) => i.drawings.length));
-  console.log({ maxDrawings, yearlydrawings });
 
   let numColumns;
   $: switch (true) {
