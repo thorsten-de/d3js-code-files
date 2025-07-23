@@ -39,11 +39,25 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 {#if svgWidth && svgHeight}
-  <svg width={svgWidth} height={svgHeight} />
+  <svg width={svgWidth} height={svgHeight}>
+    {#each years as year, i}
+      <g
+        transform="translate(
+          {(i % numColumns) * tileWidth}, 
+          {Math.floor(i / numColumns) * tileHeight})"
+      >
+        <rect x={0} y={0} width={tileWidth} height={tileHeight} />
+      </g>
+    {/each}
+  </svg>
 {/if}
 
 <style>
   svg {
     border: 1px solid magenta;
+  }
+  rect {
+    fill: none;
+    stroke: cyan;
   }
 </style>
