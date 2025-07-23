@@ -44,12 +44,12 @@
       )
         rotate({textRotation(month)})"
     >
-      <Paintings {paintingAreaScale} {paintingDefaultRadius} {paintings} {monthScale} {radius} />
       <text text-anchor="middle" dominant-baseline="middle">
         {month.slice(0, 3)}
       </text>
     </g>
   {/each}
+  <Paintings {paintingAreaScale} {paintingDefaultRadius} {paintings} {monthScale} {radius} />
   <text x={0} y={tileHeight / 2 - 5} text-anchor="middle">{year}</text>
 </g>
 

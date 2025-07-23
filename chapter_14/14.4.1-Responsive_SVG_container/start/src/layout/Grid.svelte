@@ -1,6 +1,6 @@
 <script>
   import { range, max } from "d3-array";
-  import { scaleLinear } from "d3-scale";
+  import { scaleLinear, scaleRadial } from "d3-scale";
   import paintings from "../data/paintings.json";
   import GridItem from "./GridItem.svelte";
 
@@ -48,9 +48,9 @@
   const maxPaintingArea = max(paintings, (p) => p.area_cm2);
   const maxPaintingRadius = 8;
   const paintingDefaultRadius = 3;
-  const paintingAreaScale = scaleLinear()
+  const paintingAreaScale = scaleRadial()
     .domain([0, maxPaintingArea])
-    .range([0, Math.PI * maxPaintingRadius * maxPaintingRadius]);
+    .range([0, maxPaintingRadius]);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
