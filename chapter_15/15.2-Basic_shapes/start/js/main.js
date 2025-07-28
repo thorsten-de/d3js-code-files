@@ -12,4 +12,5 @@ canvas
   .attr("width", width * devicePixelRatio)
   .attr("height", height * devicePixelRatio);
 
-
+const context = canvas.node().getContext("2d");
+context.scale(devicePixelRatio, devicePixelRatio);
