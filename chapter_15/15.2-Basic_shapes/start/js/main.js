@@ -32,3 +32,14 @@ context.beginPath();
 context.rect(346, 233, 80, 80);
 context.strokeStyle = "#6ba5d7"
 context.stroke();
+
+context.beginPath();
+context.arc(706, 106, 66, 0, 2 * Math.PI);
+context.strokeStyle = "#81c21c";
+context.lineWidth = 3;
+context.stroke();
+
+context.beginPath();
+context.ellipse(706, 273, 66, 40, 0, 0, 2 * Math.PI)
+context.fillStyle = "#81c21c";
+context.fill();
