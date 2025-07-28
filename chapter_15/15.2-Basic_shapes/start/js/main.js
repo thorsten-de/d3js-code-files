@@ -33,6 +33,8 @@ context.rect(346, 233, 80, 80);
 context.strokeStyle = "#6ba5d7"
 context.stroke();
 
+// draw circles with arc and ellipse
+
 context.beginPath();
 context.arc(706, 106, 66, 0, 2 * Math.PI);
 context.strokeStyle = "#81c21c";
@@ -43,3 +45,12 @@ context.beginPath();
 context.ellipse(706, 273, 66, 40, 0, 0, 2 * Math.PI)
 context.fillStyle = "#81c21c";
 context.fill();
+
+// draw path
+
+const path = new Path2D("M900 200 C 945 110, 965 110, 1010 200 S 1075 293, 1120 200");
+context.strokeStyle = "#773b9a";
+context.stroke(path);
+
+// draw text
+
