@@ -14,3 +14,10 @@ canvas
 
 const context = canvas.node().getContext("2d");
 context.scale(devicePixelRatio, devicePixelRatio);
+
+// draw a line
+
+context.beginPath();
+context.moveTo(66, 60)
+context.lineTo(186, 300);
+context.stroke();
