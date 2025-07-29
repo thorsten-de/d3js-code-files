@@ -54,3 +54,12 @@ context.stroke(path);
 
 // draw text
 
+context.fillStyle = "#636466";
+context.font = "16px monospace";
+context.fillText("line", 80, 346);
+context.fillText("rect", 346, 346);
+context.fillText("path", 973, 346);
+
+context.textAlign = "center";
+context.fillText("circle", 706, 206);
+context.fillText("ellipse", 706, 346);
