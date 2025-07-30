@@ -2,6 +2,7 @@
   import { forceSimulation, forceX, forceY, forceCollide } from "d3-force";
   import { scaleOrdinal } from "d3-scale";
   import { subjects } from "../utils/subjects";
+  import { onMount } from "svelte";
 
   export let paintingAreaScale;
   export let paintingDefaultRadius;
@@ -23,6 +24,14 @@
   let nodes = [];
   simulation.on("tick", () => {
     nodes = simulation.nodes();
+  });
+
+  let canvasElement;
+  let context;
+
+  onMount(() => {
+    context = canvasElement.getContext("2d");
+    context.scale(window.devicePixelRatio, window.devicePixelRatio);
   });
 
   $: {
@@ -60,7 +69,12 @@
   }
 </script>
 
-<canvas width={width * window.devicePixelRatio} height={height * window.devicePixelRatio}> </canvas>
+<canvas
+  width={width * window.devicePixelRatio}
+  height={height * window.devicePixelRatio}
+  bind:this={canvasElement}
+>
+</canvas>
 
 <style>
   canvas {
