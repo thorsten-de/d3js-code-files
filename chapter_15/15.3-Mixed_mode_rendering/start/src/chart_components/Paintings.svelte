@@ -34,6 +34,36 @@
     context.scale(window.devicePixelRatio, window.devicePixelRatio);
   });
 
+  const simulationEnded = () => {
+    nodes.forEach((node) => {
+      context.fillStyle = colorScale(node.subject);
+      switch (node.medium) {
+        case "oil":
+          context.strokeStyle = "#FFFAFC";
+          break;
+        case "watercolor":
+          context.strokeStyle = "#160E13";
+          break;
+        case "print":
+          context.strokeStyle = "#BC5D9A";
+          break;
+      }
+
+      context.beginPath();
+      context.arc(
+        node.x,
+        node.y,
+        node.area_cm2
+          ? Math.sqrt(paintingAreaScale(node.area_cm2) / Math.PI)
+          : paintingDefaultRadius,
+        0,
+        2 * Math.PI
+      );
+      context.fill();
+      context.stroke();
+    });
+  };
+
   $: {
     simulation
       .force(
@@ -65,7 +95,8 @@
           .strength(1)
       )
       .alpha(0.5)
-      .alphaDecay(0.1);
+      .alphaDecay(0.1)
+      .on("end", simulationEnded);
   }
 </script>
 
