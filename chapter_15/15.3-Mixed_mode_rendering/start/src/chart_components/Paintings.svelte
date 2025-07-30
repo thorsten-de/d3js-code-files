@@ -100,7 +100,6 @@
   };
 
   let currentColor = "";
-  console.log(nodeColors);
   const handleMouseMove = (e) => {
     const mouseX = e.layerX;
     const mouseY = e.layerY;
@@ -119,7 +118,6 @@
         currentColor = colorRGB;
         const nodeInfo = nodeColors.get(colorRGB);
         if (nodeInfo) {
-          console.log(colorRGB);
           isTooltipVisible = true;
           tooltipMeta = {
             x: mouseX,
@@ -197,5 +195,8 @@
     top: 0;
     left: 0;
     max-width: 100%;
+  }
+  .hidden-canvas {
+    opacity: 0;
   }
 </style>
