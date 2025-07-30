@@ -30,9 +30,7 @@
       .force(
         "x",
         forceX((d) => {
-          const translation = yearsTranslations.find(
-            (y) => y.year === d.year
-          ).translationX;
+          const translation = yearsTranslations.find((y) => y.year === d.year).translationX;
           return d.month !== ""
             ? translation + radius * Math.sin(monthScale(d.month))
             : translation;
@@ -41,9 +39,7 @@
       .force(
         "y",
         forceY((d) => {
-          const translation = yearsTranslations.find(
-            (y) => y.year === d.year
-          ).translationY;
+          const translation = yearsTranslations.find((y) => y.year === d.year).translationY;
           return d.month !== ""
             ? translation - radius * Math.cos(monthScale(d.month))
             : translation;
@@ -63,3 +59,14 @@
       .alphaDecay(0.1);
   }
 </script>
+
+<canvas width={width * window.devicePixelRatio} height={height * window.devicePixelRatio}> </canvas>
+
+<style>
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+  }
+</style>
