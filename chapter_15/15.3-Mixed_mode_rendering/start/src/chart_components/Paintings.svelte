@@ -75,7 +75,7 @@
     ctx.stroke();
   };
 
-  const simulationEnded = () => {
+  const handleSimulationEnd = () => {
     nodes.forEach((node) => {
       context.fillStyle = colorScale(node.subject);
       switch (node.medium) {
@@ -97,6 +97,49 @@
       hiddenContext.strokeStyle = color;
       drawNode(hiddenContext, node);
     });
+  };
+
+  let currentColor = "";
+  console.log(nodeColors);
+  const handleMouseMove = (e) => {
+    const mouseX = e.layerX;
+    const mouseY = e.layerY;
+
+    const imageData = hiddenContext.getImageData(
+      mouseX * window.devicePixelRatio,
+      mouseY * window.devicePixelRatio,
+      1,
+      1
+    ).data;
+
+    const colorRGB = `rgb(${imageData[0]},${imageData[1]},${imageData[2]})`;
+
+    if (colorRGB !== currentColor) {
+      if (colorRGB !== "rgb(0,0,0)") {
+        currentColor = colorRGB;
+        const nodeInfo = nodeColors.get(colorRGB);
+        if (nodeInfo) {
+          console.log(colorRGB);
+          isTooltipVisible = true;
+          tooltipMeta = {
+            x: mouseX,
+            y: mouseY,
+            screenY: e.clientY,
+            url: nodeInfo.imageLink,
+            title: nodeInfo.title,
+            createdIn: nodeInfo.created_in,
+            date: nodeInfo.month !== "" ? `${nodeInfo.month} ${nodeInfo.year}` : nodeInfo.year,
+            medium: nodeInfo.medium,
+            currentLocation: nodeInfo.current_location,
+            width: nodeInfo.width_cm,
+            height: nodeInfo.height_cm,
+            subject: nodeInfo.subject,
+          };
+        }
+      } else {
+        isTooltipVisible = false;
+      }
+    }
   };
 
   $: {
@@ -131,7 +174,7 @@
       )
       .alpha(0.5)
       .alphaDecay(0.1)
-      .on("end", simulationEnded);
+      .on("end", handleSimulationEnd);
   }
 </script>
 
@@ -145,6 +188,7 @@
   width={width * window.devicePixelRatio}
   height={height * window.devicePixelRatio}
   bind:this={hiddenCanvasElement}
+  on:mousemove={handleMouseMove}
 />
 
 <style>
