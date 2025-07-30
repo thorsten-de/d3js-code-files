@@ -23,7 +23,7 @@
     x2={radialScale(letters.find((l) => l.month === month).number_of_letters) *
       Math.sin(monthScale(month))}
     y2={radialScale(letters.find((l) => l.month === month).number_of_letters) *
-      Math.cos(monthScale(month))}
+      -Math.cos(monthScale(month))}
     stroke-width={2}
     stroke-linecap="round"
   />
