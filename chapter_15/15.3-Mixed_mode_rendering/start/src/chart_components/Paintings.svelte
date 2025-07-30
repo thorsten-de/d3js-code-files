@@ -28,11 +28,52 @@
 
   let canvasElement;
   let context;
+  let hiddenCanvasElement;
+  let hiddenContext;
 
   onMount(() => {
     context = canvasElement.getContext("2d");
     context.scale(window.devicePixelRatio, window.devicePixelRatio);
+    hiddenContext = hiddenCanvasElement.getContext("2d", { willReadFrequently: true });
+    hiddenContext.scale(window.devicePixelRatio, window.devicePixelRatio);
   });
+
+  const nodeColors = new Map();
+
+  const generateColor = () => {
+    let colorArray = [];
+    for (let i = 0; i < 3; i++) {
+      const randomNumber = Math.floor(Math.random() * 255);
+      colorArray.push(randomNumber);
+    }
+    return colorArray;
+  };
+
+  const addNodeColor = (node) => {
+    let isNewGeneratedColor = false;
+    while (!isNewGeneratedColor) {
+      const colorArray = generateColor();
+      const colorRGB = `rgb(${colorArray.join(",")})`;
+      if (!nodeColors.get(colorRGB)) {
+        nodeColors.set(colorRGB, node);
+        isNewGeneratedColor = true;
+        return colorRGB;
+      }
+    }
+  };
+
+  const drawNode = (ctx, node) => {
+    ctx.beginPath();
+    ctx.arc(
+      node.x,
+      node.y,
+      node.area_cm2 ? Math.sqrt(paintingAreaScale(node.area_cm2) / Math.PI) : paintingDefaultRadius,
+      0,
+      2 * Math.PI
+    );
+    ctx.fill();
+    ctx.stroke();
+  };
 
   const simulationEnded = () => {
     nodes.forEach((node) => {
@@ -49,18 +90,12 @@
           break;
       }
 
-      context.beginPath();
-      context.arc(
-        node.x,
-        node.y,
-        node.area_cm2
-          ? Math.sqrt(paintingAreaScale(node.area_cm2) / Math.PI)
-          : paintingDefaultRadius,
-        0,
-        2 * Math.PI
-      );
-      context.fill();
-      context.stroke();
+      drawNode(context, node);
+
+      const color = addNodeColor(node);
+      hiddenContext.fillStyle = color;
+      hiddenContext.strokeStyle = color;
+      drawNode(hiddenContext, node);
     });
   };
 
@@ -104,8 +139,13 @@
   width={width * window.devicePixelRatio}
   height={height * window.devicePixelRatio}
   bind:this={canvasElement}
->
-</canvas>
+/>
+<canvas
+  class="hidden-canvas"
+  width={width * window.devicePixelRatio}
+  height={height * window.devicePixelRatio}
+  bind:this={hiddenCanvasElement}
+/>
 
 <style>
   canvas {
